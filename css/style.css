@@ -1,0 +1,79 @@
+body {
+  background-color: rgb(153, 54, 54);
+}
+main {
+  font-size: 30px;
+}
+
+input[type="text"] {
+    height: 50px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 30px;
+    font-size: 20px;
+}
+input[type="email"] {
+    height: 50px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 30px;
+    font-size: 20px;
+}
+input[type="password"] {
+    height: 50px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 30px;
+    font-size: 20px;
+}
+button {
+    padding: 10px 20px;
+  background-color: rgb(98, 19, 19);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 30px;
+  font-size: 23px;
+}
+
+button:hover {
+  background-color: rgb(161, 125, 125);
+  color: black;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.search {
+  padding-top: 100px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+input[type="radio"] {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.logind {
+  padding-top: 100px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.log {
+  width: 300px;
+  height: 50px;
+  padding: 20px;
+  border-radius: 30px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+h1 {
+  color: white;
+  font-size: 50px;
+}
+.log_reg_btn{
+    font-size: 30px;
+    padding-bottom: 10px;
+    padding: .10em 0em;
+}
