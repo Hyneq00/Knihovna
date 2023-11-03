@@ -22,7 +22,7 @@
             <input type="email" class="log" placeholder="E-mail"><br>
             <input type="password" class="log" placeholder="Heslo"><br>
             <input type="password" class="log" placeholder="Heslo znovu"><br>
-            <button type="submit" class="log log_reg_btn">Zaregistrovat</button>
+            <button type="submit" class="button log log_reg_btn">Zaregistrovat</button>
         </form>
 </div>
 </body>

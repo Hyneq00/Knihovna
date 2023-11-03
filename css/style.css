@@ -12,6 +12,13 @@ input[type="text"] {
     border-radius: 30px;
     font-size: 20px;
 }
+input[type="submit"] {
+    height: 50px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 30px;
+    font-size: 20px;
+}
 input[type="email"] {
     height: 50px;
     width: 300px;
@@ -76,4 +83,10 @@ h1 {
     font-size: 30px;
     padding-bottom: 10px;
     padding: .10em 0em;
+}
+.add_form{
+    color: aqua;
+}
+h3  {
+    color: white;
 }
