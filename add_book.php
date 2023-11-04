@@ -19,10 +19,6 @@ $connection = connectiondb();
         }
 
     }
-    $jmeno = "harry Potter";
-    $autor = "j.r rowllingova";
-    $rok_vydani = "2019";
-    $zanr = "Beletrie"
 
 ?>
 
@@ -46,7 +42,7 @@ $connection = connectiondb();
 
                 <input type="text"
                        name="title"
-                       placeholder="Názrv"
+                       placeholder="Název"
                        required>
                 <br>
                 <input type="text"
@@ -65,15 +61,12 @@ $connection = connectiondb();
                        required><br>
 
                 <h3> <?= $succesfull ?> </h3><br>
-                <button type="submit" class="button log log_reg_btn" value="Přidat">Přidat</button>
+                <button type="submit"
+                        class="button log log_reg_btn"
+                        value="Přidat">Přidat</button>
             </form>
 
             <div class="added">
-                <?php echo "$jmeno";?><br>
-                <?php echo "$autor";?><br>
-                <?php echo "$rok_vydani";?><br>
-                <?php echo "$zanr";?><br>
-
                 <h3><?= $_POST["title"] ?></h3>
                 <h3><?= $_POST["author"] ?></h3>
                 <h3><?= $_POST["year_of_publication"] ?></h3>

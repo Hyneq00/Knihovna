@@ -20,8 +20,8 @@
     <main>
     <div class="search" >
         <form action="index.php" method="post">
-            <input type="radio"  value= "name" checked >Název
-            <input type="radio"  value= "author">Autor
+            <input type="radio"   name ="searching" value= "name" checked >Název
+            <input type="radio"  name ="searching"    value= "author">Autor
             <input type="radio" name= "searching" value= "genre">Téma <br>
             <input type="text" name="hledat" placeholder="Hledat...">
             <button type="submit" name="vyhledat" value="vyhledat">Vyhledat</button>
