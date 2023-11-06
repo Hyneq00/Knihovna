@@ -25,32 +25,9 @@
         $author = $_POST["author"];
         $year_of_publication = $_POST["year_of_publication"];
         $genre = $_POST["genre"];
-
-        $sql = "UPDATE kniha
-                SET 
-                 title = ?,
-                 author = ?,
-                 year_of_publication = ?,
-                 genre = ?
-                 WHERE id = ?";
-
-        $stmt = mysqli_prepare($connection, $sql);
-
-        if ($stmt == false){
-            echo mysqli_error($connection);
-        } else {
-            mysqli_stmt_bind_param($stmt, "ssssi",$title, $author, $year_of_publication, $genre,$id );
-
-            if (mysqli_stmt_execute($stmt)){
-                 $text = "Úspěšně změněno";
-            }
-        }
-
+        updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
+        $text = "Informace byli úspěšně změněny";
     }
-
-
-
-
 
 ?>
 
@@ -69,6 +46,7 @@
         <section class="logind" >
             <form action="editace_knihy.php?id=<?=$one_book['id']?>" method="POST">
                 <h1>Upravit knihu</h1><br>
+
 
                 <input type="text"
                        name="title"
@@ -97,9 +75,21 @@
                 <button type="submit"
                         class="button log log_reg_btn"
                         name="update"
-                        value="pridat">Uložit</button>
-                <br><h2><?=$text?></h2>
+                        value="pridat">Uložit</button><br>
+                <p id="zobrazText" ><?=$text?></p>
+                <script>
+                    //Nastavení času zobrazení textu, který se objevý po uložení infomací knihy
+                    var zobrazTextElement = document.getElementById("zobrazText");
+
+                    // Zobraz text po dobu 5 sekund (5000 ms)
+                    setTimeout(function() {
+                        zobrazTextElement.style.display = "none";
+                    }, 3000);
+                </script>
+
+
             </form>
     </main>
+
 </body>
 </html>
