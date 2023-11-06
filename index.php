@@ -1,8 +1,7 @@
 <?php
-    if(isset($_POST["vyhledat"])){
-        $search = $_POST["hledat"];
-        echo $search;
-    }
+require "assetss/database.php";
+$connection = connectiondb();
+
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +25,6 @@
             <input type="text" name="hledat" placeholder="Hledat...">
             <button type="submit" name="vyhledat" value="vyhledat">Vyhledat</button>
         </form>
-
     </div>
     
 
