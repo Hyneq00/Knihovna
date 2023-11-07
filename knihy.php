@@ -21,7 +21,7 @@ if($result === false){
 </head>
 <body>
 <?php require "assetss/header.php" ?>
-    <h1>Seznam všech knih</h1>
+    <h1>Seznam všech knih</h1><br>
     <?php if (empty($book)):?>
             <p>Nenalezeno</p>
     <?php else: ?><ul>

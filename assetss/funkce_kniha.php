@@ -53,3 +53,21 @@ function updateBook($connection,$title, $author, $year_of_publication, $genre,$i
 
 }
 
+//Funkce na vyhledávání kníh podle autora, názvu a nebo žánru
+function getBook_one($connection,$anything,$what) {
+    $sql = "SELECT *
+            FROM kniha
+            WHERE $anything=?";
+    $stmt = mysqli_prepare($connection, $sql);
+
+    if ($stmt === false) {
+        echo mysqli_error($connection);
+    } else {
+        mysqli_stmt_bind_param($stmt, "s", $what);
+
+        if(mysqli_stmt_execute($stmt)){
+            $result = mysqli_stmt_get_result($stmt);
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        }
+    }
+}

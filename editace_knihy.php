@@ -13,11 +13,11 @@
             $genre = $one_book["genre"];
             $id = $one_book["id"];
         }  else {
-            die("Student nenalezen");
+            die ("Kniha Nenalezena");
         }
 
     } else {
-        die ("ID není zadáno, student nebyl nalezen");
+        die ("ID není zadáno, kniha nebyla nalezena");
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -75,7 +75,12 @@
                 <button type="submit"
                         class="button log log_reg_btn"
                         name="update"
-                        value="pridat">Uložit</button><br>
+                        value="pridat">Uložit</button>
+                <br><br>
+                <button type="submit"
+                        class="button log log_reg_btn"
+                        name="delete"
+                        value="pridat">Smazat knihu</button><br>
                 <p id="zobrazText" ><?=$text?></p>
                 <script>
                     //Nastavení času zobrazení textu, který se objevý po uložení infomací knihy
