@@ -71,3 +71,13 @@ function getBook_one($connection,$anything,$what) {
         }
     }
 }
+
+function deleteBook($connection, $id){
+    $sql = "DELETE FROM kniha WHERE id = $id";
+    if (mysqli_query($connection, $sql)) {
+        return;
+    } else {
+        echo mysqli_error($connection);
+    }
+
+}

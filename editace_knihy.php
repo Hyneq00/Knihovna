@@ -13,7 +13,7 @@
             $genre = $one_book["genre"];
             $id = $one_book["id"];
         }  else {
-            die ("Kniha Nenalezena");
+            return;
         }
 
     } else {
@@ -21,14 +21,24 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $title = $_POST["title"];
-        $author = $_POST["author"];
-        $year_of_publication = $_POST["year_of_publication"];
-        $genre = $_POST["genre"];
-        updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
-        $text = "Informace byli úspěšně změněny";
+        if (isset($_POST["button"])) {
+            $button = $_POST["button"];
+            switch ($button) {
+                case "update":
+                    $title = $_POST["title"];
+                    $author = $_POST["author"];
+                    $year_of_publication = $_POST["year_of_publication"];
+                    $genre = $_POST["genre"];
+                    updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
+                    $text = "Informace byli úspěšně změněny";
+                    break;
+                case "delete":
+                    deleteBook($connection, $id);
+                    $text = "Kniha byla smazána";
+                    break;
+            }
+        }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -51,37 +61,46 @@
                 <input type="text"
                        name="title"
                        placeholder="Název"
+                       id = "deleting"
                        value="<?= htmlspecialchars($title) ?>"
-                       required
                         >
                         <br>
                 <input type="text"
                        name="author"
                        placeholder="Autor"
-                       required
+                       id = "deleting"
                        value="<?=htmlspecialchars($author)?>"">
                 <br>
                 <input type="text"
                        name="year_of_publication"
                        placeholder="Rok vydání"
-                       required
+                       id = "deleting"
                        value="<?= htmlspecialchars($year_of_publication) ?>"" >
                 <br>
                 <input type="text"
                        name="genre"
                        placeholder="Žánr"
-                       required
+                       id = "deleting"
                        value="<?= htmlspecialchars($genre) ?>"><br>
                 <button type="submit"
                         class="button log log_reg_btn"
-                        name="update"
-                        value="pridat">Uložit</button>
+                        name="button"
+                        value="update">Uložit</button>
                 <br><br>
                 <button type="submit"
                         class="button log log_reg_btn"
-                        name="delete"
-                        value="pridat">Smazat knihu</button><br>
+                        name="button"
+                        id="vymazat"
+                        value="delete">Smazat knihu</button><br>
                 <p id="zobrazText" ><?=$text?></p>
+                <script>
+                    document.getElementById("vymazat").addEventListener("click", function() {
+                        var potvrdit = confirm("Opravdu chcete vymazat knihu? Tato akce je nevratná");
+                        if (potvrdit) {
+                            document.getElementById("vstup").value = "";
+                        }
+                    });
+                </script>
                 <script>
                     //Nastavení času zobrazení textu, který se objevý po uložení infomací knihy
                     var zobrazTextElement = document.getElementById("zobrazText");
@@ -91,7 +110,6 @@
                         zobrazTextElement.style.display = "none";
                     }, 3000);
                 </script>
-
 
             </form>
     </main>
