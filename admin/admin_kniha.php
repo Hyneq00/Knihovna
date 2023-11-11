@@ -2,6 +2,12 @@
 require "../assetss/database.php";
 require "../assetss/funkce_kniha.php";
 $connection = connectiondb();
+require "authorization.php";
+session_start();
+
+if (!isLoggedIn() ) {
+    die("Nepovolený přístup");
+}
 
 if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
     $book = getBook($connection,$_GET["id"]);
@@ -17,6 +23,7 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type = "text/css" href="../css/header.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Document</title>
 </head>
 <body>

@@ -3,11 +3,20 @@ require "assetss/database.php";
 $connection = connectiondb();
 require "assetss/funkce_kniha.php";
 
-if (isset($_POST["hledat"])){
+if (isset($_POST["hledat"])) {
     $vyber = $_POST['searching'];
     $book = getBook_one($connection, $vyber, $_POST["hledat"]);
-}
 
+    if (empty($book)) {
+        if ($vyber === "title") {
+            $text = "Hledaná kniha nebyla nalezena";
+        } elseif ($vyber === "author") {
+            $text = "Hledaný autor nebyl nalezen";
+        } elseif ($vyber === "genre") {
+            $text = "Hledaný žánr nebyl nalezen";
+        }
+    }
+}
 
 ?>
 
@@ -32,7 +41,10 @@ if (isset($_POST["hledat"])){
             <input type="radio" name= "searching" value= "genre">Téma <br>
             <input type="text" name="hledat" placeholder="Hledat...">
             <button type="submit" name="vyhledat" value="vyhledat">Vyhledat</button>
-            <br> <br>
+            <br>
+            <h1 class="no_search"><?= $text ?></h1>
+            <br>
+            <br>
         </form>
     </div>
         <div class="conteiner">

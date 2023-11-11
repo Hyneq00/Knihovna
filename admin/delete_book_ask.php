@@ -1,7 +1,13 @@
 <?php
-require "assetss/database.php";
+require "../assetss/database.php";
 $connection = connectiondb();
-require "assetss/funkce_kniha.php";
+require "../assetss/funkce_kniha.php";
+require "authorization.php";
+session_start();
+
+if (!isLoggedIn() ) {
+    die("Nepovolený přístup");
+}
 
 $bookID = $_GET["id"];
 
@@ -14,7 +20,7 @@ $bookID = $_GET["id"];
                  break;
              case "yes":
                  deleteBook($connection, $bookID);
-                 header("Location: knihy.php");
+                 header("Location: admin_knihy.php");
                  break;
          }
      }
@@ -25,12 +31,12 @@ $bookID = $_GET["id"];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/header.css">
     <title>Document</title>
 </head>
 <body>
-<?php require "assetss/header.php"?>
+<?php require "../assetss/admin_header.php" ?>
 <section class="logind" >
         <h1>Opravdu chcete smazet knihu?</h1><br><br><br>
 

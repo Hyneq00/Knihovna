@@ -36,3 +36,6 @@ a:hover {
   border: solid 2px rgb(161, 125, 125);
   transition: color 0.3s, border 0.3s, background-color 0.3s;
 }
+.admin_border{
+  border: 2px solid gold;
+}

@@ -17,13 +17,39 @@
     <?php require "assetss/header.php" ?>
     <div class="logind" >
         <h1>Registrace</h1>
-        <form action="">
-            <input type="text" class="log" placeholder="Jméno"><br>
-            <input type="email" class="log" placeholder="E-mail"><br>
-            <input type="password" class="log" placeholder="Heslo"><br>
-            <input type="password" class="log" placeholder="Heslo znovu"><br>
-            <button type="submit" class="button log log_reg_btn">Zaregistrovat</button>
+        <form action="admin/registration_after.php" method="POST">
+            <input type="text"
+                   name="first_name"
+                   class="log"
+                   required
+                   placeholder="Jméno"><br>
+            <input type="text"
+                   name="surname"
+                   class="log"
+                   required
+                   placeholder="Přijmení"><br>
+            <input type="email"
+                   name="email"
+                   class="log"
+                   required
+                   placeholder="E-mail"><br>
+            <input type="password"
+                   class="log password"
+                   name="password"
+                   required
+                   placeholder="Heslo"><br>
+            <input type="password"
+                   class="log passwordControl"
+                   required
+                   placeholder="Heslo znovu">
+            <br>
+            <p class="error_password_text"></p>
+            <br>
+
+            <button type="submit"
+                    class="button log log_reg_btn">Zaregistrovat</button>
         </form>
 </div>
+    <script src="js/script.js" ></script>
 </body>
 </html>

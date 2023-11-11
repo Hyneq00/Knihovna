@@ -1,7 +1,13 @@
 <?php
 
-require "assetss/database.php";
+require "../assetss/database.php";
 $connection = connectiondb();
+require "authorization.php";
+session_start();
+
+if (!isLoggedIn() ) {
+    die("Nepovolený přístup");
+}
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sql = "INSERT INTO kniha (title, author, year_of_publication, genre)
@@ -29,12 +35,12 @@ $connection = connectiondb();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Document</title>
 </head>
 <body>
-    <?php require "assetss/header.php"  ?>
+    <?php require "../assetss/admin_header.php" ?>
     <main>
         <section class="logind" >
             <form action="add_book.php" method="POST">

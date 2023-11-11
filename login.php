@@ -1,5 +1,6 @@
 <?php
-
+    if (isset($_GET["error"]))
+        $error = $_GET["error"]
 ?>
 
 
@@ -17,10 +18,16 @@
     <?php require "assetss/header.php" ?>
     <div class="logind" >
     <h1>Přihlášení</h1>
-        <form action="">
-            <input type="text" class="log" placeholder="Jméno"><br>
-            <input type="text" class="log" placeholder="Heslo"><br>
+        <form action="admin/log_in.php" method="POST">
+            <input type="email" name = "log_email" class="log" placeholder="Email">
+            <br>
+            <input type="password" name = "log_password" class="log" placeholder="Heslo">
+            <br>
+            <p class="hlaska"><?= $error ?> </p>
+            <br>
             <button type="submit" class="log log_reg_btn">Přihlasit</button>
+
+
         </form>
 </div>
 </body>

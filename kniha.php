@@ -33,10 +33,7 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
         <h3>Žánr: <?=htmlspecialchars($book["genre"])?></h3>
     <?php endif ?>
 </section>
-<section class="butons" >
-    <br>
-    <a href="editace_knihy.php?id=<?=$book['id']?>">Editovat</a>
-</section>
+
 
 
 

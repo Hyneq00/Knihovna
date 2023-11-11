@@ -1,6 +1,12 @@
 <?php
-    require "assetss/database.php";
-    require "assetss/funkce_kniha.php";
+require "../assetss/database.php";
+require "../assetss/funkce_kniha.php";
+require "authorization.php";
+session_start();
+
+if (!isLoggedIn() ) {
+    die("Nepovolený přístup");
+}
 
     $connection = connectiondb();
 
@@ -46,12 +52,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <main>
-        <?php require "assetss/header.php" ?>
+        <?php require "../assetss/admin_header.php" ?>
         <section class="logind" >
             <form action="editace_knihy.php?id=<?=$one_book['id']?>" method="POST">
                 <h1>Upravit knihu</h1><br>
