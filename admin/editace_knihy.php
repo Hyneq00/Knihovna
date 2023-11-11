@@ -91,7 +91,6 @@
                 <script>
                     //Nastavení času zobrazení textu, který se objevý po uložení infomací knihy
                     var zobrazTextElement = document.getElementById("zobrazText");
-
                     // Zobraz text po dobu 5 sekund (5000 ms)
                     setTimeout(function() {
                         zobrazTextElement.style.display = "none";

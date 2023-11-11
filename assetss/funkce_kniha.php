@@ -2,7 +2,6 @@
 
 // Získává jednu knihu z databaze podle ID
 
-
 function getBook($connection,$id) {
     $sql = "SELECT *
             FROM kniha
@@ -21,15 +20,7 @@ function getBook($connection,$id) {
     }
 }
 
-/**
- * @param $connection - napojední na databázi
- * @param $title - název knihy
- * @param $author - název knihy autora
- * @param $year_of_publication - ro vydání knihy
- * @param $genre - žánr knihy
- * @param $id - id knihy
- * @return string|void - vrací text s oznámením úspěšné změny
- */
+// Funkce na upravování knihy
 function updateBook($connection,$title, $author, $year_of_publication, $genre,$id){
     $sql = "UPDATE kniha
                 SET 
@@ -71,7 +62,7 @@ function getBook_one($connection,$anything,$what) {
         }
     }
 }
-
+// Funkce na mazání knih
 function deleteBook($connection, $id){
     $sql = "DELETE FROM kniha WHERE id = $id";
     if (mysqli_query($connection, $sql)) {
@@ -80,4 +71,70 @@ function deleteBook($connection, $id){
         echo mysqli_error($connection);
     }
 
+}
+
+//Funkce na zaregistrování nového uživatele
+
+function registrationUsers($connection,$first_name, $surname, $email, $password){
+    $sql = "INSERT INTO users(first_name, surname, email, password)
+    VALUES(?,?,?,?)";
+
+    $statement = mysqli_prepare($connection, $sql);
+
+    if ($statement === false) {
+        echo mysqli_error($connection);
+    } else {
+        mysqli_stmt_bind_param($statement, "ssss", $first_name, $surname, $email, $password);
+
+        if(mysqli_stmt_execute($statement)) {
+
+            $id = mysqli_insert_id($connection);
+            return $id;
+        } else {
+            echo mysqli_stmt_error($statement);
+        }
+    }
+}
+
+function authorizationUsers($connection, $log_email, $log_password) {
+        $sql = "SELECT password
+                FROM users
+                WHERE email = ?";
+
+        $stmt = mysqli_prepare($connection, $sql);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "s", $log_email);
+
+            if (mysqli_stmt_execute($stmt)){
+                $result_password = mysqli_stmt_get_result($stmt);
+                $password_database = mysqli_fetch_row($result_password); // zde je proměnná v poli
+                $user_password_database = $password_database[0];
+                if ($user_password_database){
+                    return password_verify($log_password, $user_password_database);
+                }
+        } else {
+                echo mysqli_error($connection);
+            };
+        }
+}
+// Získání ID uživatele
+function getUserId($connection, $email) {
+    $sql = "SELECT id FROM users WHERE email = ?";
+
+    $stmt = mysqli_prepare($connection, $sql);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            $id_database = mysqli_fetch_row($result); //pole
+            $user_id =  $id_database[0];
+
+            echo $user_id;
+        }
+
+    } else {
+        echo mysqli_error($connection);
+    }
 }
