@@ -40,6 +40,7 @@
                    placeholder="Heslo"><br>
             <input type="password"
                    class="log passwordControl"
+                   name = password_confirm
                    required
                    placeholder="Heslo znovu">
             <br>
@@ -47,8 +48,12 @@
             <br>
 
             <button type="submit"
+                    id = "submit"
                     class="button log log_reg_btn">Zaregistrovat</button>
         </form>
+        <button type="submit"
+                id = "submit_wrong"
+                class="button log log_reg_btn">Zaregistrovat</button>
 </div>
     <script src="js/script.js" ></script>
 </body>

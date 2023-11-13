@@ -55,6 +55,8 @@ if (isset($_POST["hledat"])) {
                 <h3>Rok vydání:  <?=htmlspecialchars($one_book["year_of_publication"])?></h3>
                 <h3>Žánr:  <?=htmlspecialchars($one_book["genre"])?></h3>
                 <br>
+                <a href="admin_kniha.php?id=<?=$one_book["id"]?>">Info</a>
+                <br>
             </div>
         <?php endforeach; ?>
     </div>

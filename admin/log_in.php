@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location:admin_index.php");
 
     } else {
-        $error = "Špatně zadané údaje!";
+        $error = "error";
         header("Location:../login.php?error=$error");
 
     }

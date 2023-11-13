@@ -36,10 +36,7 @@ function updateBook($connection,$title, $author, $year_of_publication, $genre,$i
         echo mysqli_error($connection);
     } else {
         mysqli_stmt_bind_param($stmt, "ssssi",$title, $author, $year_of_publication, $genre,$id );
-
-        if (mysqli_stmt_execute($stmt)){
-            return;
-        }
+        mysqli_stmt_execute($stmt);
     }
 
 }

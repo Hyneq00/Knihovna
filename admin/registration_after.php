@@ -10,8 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $surname = $_POST["surname"];
     $email = $_POST["email"];
     $password = password_hash($_POST["password"],PASSWORD_DEFAULT);
+    $password_confirm = $_POST["password_confirm"];
 
     $id = registrationUsers($connection, $first_name, $surname, $email, $password);
+
+
 }
 if (empty($id)){
     echo "Uživatele se nepodařilo přidat";
@@ -24,8 +27,4 @@ if (empty($id)){
     $_SESSION["logged_in_user_id"] = $id;
     header("Location: ../index.php");
 }
-
-
-echo $id;
-var_dump($first_name, $surname, $email, $password);
 ?>

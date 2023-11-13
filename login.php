@@ -1,6 +1,6 @@
 <?php
     if (isset($_GET["error"]))
-        $error = $_GET["error"]
+        $error = "Špatně zadané údaje!"
 ?>
 
 
