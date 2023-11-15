@@ -1,16 +1,19 @@
 <?php
 require "../assetss/database.php";
 require "../assetss/funkce_kniha.php";
-$connection = connectiondb();
-require "authorization.php";
+require "../assetss/authorization.php";
+
+$database = new Database();
+$connection = $database->connectiondb();
+
 session_start();
 
-if (!isLoggedIn() ) {
+if (!Authorization::isLoggedIn() ) {
     die("Nepovolený přístup");
 }
 
 if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
-    $book = getBook($connection,$_GET["id"]);
+    $book = Books::getBook($connection,$_GET["id"]);
 } else {
     $book = null;
 }

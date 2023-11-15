@@ -1,30 +1,25 @@
 <?php
-
 require "../assetss/database.php";
-$connection = connectiondb();
-require "authorization.php";
+require "../assetss/authorization.php";
+require "../assetss/funkce_kniha.php";
+
+
+$database = new Database();
+$connection = $database->connectiondb();
+
 session_start();
 
-if (!isLoggedIn() ) {
+if (!Authorization::isLoggedIn() ) {
     die("Nepovolený přístup");
 }
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $sql = "INSERT INTO kniha (title, author, year_of_publication, genre)
-                VALUES(?,?,?,?)";
-        $statement = mysqli_prepare($connection, $sql);
-        if ($statement === false){
-            echo mysqli_error($connection);
-        } else {
-            mysqli_stmt_bind_param($statement,"ssss", $_POST["title"],$_POST["author"], $_POST["year_of_publication"], $_POST["genre"]);
-            if ( mysqli_stmt_execute($statement)){
-                $succesfull = "Úspěšně vloženo";
-            } else {
-                echo mysqli_stmt_execute($statement);
-            }
-        }
-
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $add = Books::creatBook($connection, $_POST["title"], $_POST["author"], $_POST["year_of_publication"], $_POST["genre"]);
+    if ($add) {
+        $succesfull = "Kniha byla úspěšně přidána";
     }
+}
+
 
 ?>
 

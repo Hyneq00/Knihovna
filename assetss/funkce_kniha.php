@@ -1,137 +1,165 @@
 <?php
 
-// Získává jednu knihu z databaze podle ID
 
-function getBook($connection,$id) {
-    $sql = "SELECT *
-            FROM kniha
-            WHERE id=?";
-    $stmt = mysqli_prepare($connection, $sql);
 
-    if ($stmt === false) {
-        echo mysqli_error($connection);
-    } else {
-        mysqli_stmt_bind_param($stmt, "i", $id);
+class Books
+{
+    // Získává jednu knihu z databaze podle ID
+    public static function getBook($connection, $id, $columns = "*")
+    {
+        $sql = "SELECT $columns
+                FROM kniha
+                WHERE id=:id";
+        $stmt = $connection->prepare($sql);
 
-        if(mysqli_stmt_execute($stmt)){
-            $result = mysqli_stmt_get_result($stmt);
-            return mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
     }
-}
+
 
 // Funkce na upravování knihy
-function updateBook($connection,$title, $author, $year_of_publication, $genre,$id){
-    $sql = "UPDATE kniha
+    public static function updateBook($connection, $title, $author, $year_of_publication, $genre, $id)
+    {
+        $sql = "UPDATE kniha
                 SET 
-                 title = ?,
-                 author = ?,
-                 year_of_publication = ?,
-                 genre = ?
-                 WHERE id = ?";
+                 title = :title,
+                 author = :author,
+                 year_of_publication = :year_of_publication,
+                 genre = :genre
+                 WHERE id = :id";
 
-    $stmt = mysqli_prepare($connection, $sql);
+        $stmt = $connection->prepare($sql);
 
-    if ($stmt == false){
-        echo mysqli_error($connection);
-    } else {
-        mysqli_stmt_bind_param($stmt, "ssssi",$title, $author, $year_of_publication, $genre,$id );
-        mysqli_stmt_execute($stmt);
-    }
-
-}
-
-//Funkce na vyhledávání kníh podle autora, názvu a nebo žánru
-function getBook_one($connection,$anything,$what) {
-    $sql = "SELECT *
-            FROM kniha
-            WHERE $anything=?";
-    $stmt = mysqli_prepare($connection, $sql);
-
-    if ($stmt === false) {
-        echo mysqli_error($connection);
-    } else {
-        mysqli_stmt_bind_param($stmt, "s", $what);
-
-        if(mysqli_stmt_execute($stmt)){
-            $result = mysqli_stmt_get_result($stmt);
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
-        }
-    }
-}
-// Funkce na mazání knih
-function deleteBook($connection, $id){
-    $sql = "DELETE FROM kniha WHERE id = $id";
-    if (mysqli_query($connection, $sql)) {
-        return;
-    } else {
-        echo mysqli_error($connection);
-    }
-
-}
-
-//Funkce na zaregistrování nového uživatele
-
-function registrationUsers($connection,$first_name, $surname, $email, $password){
-    $sql = "INSERT INTO users(first_name, surname, email, password)
-    VALUES(?,?,?,?)";
-
-    $statement = mysqli_prepare($connection, $sql);
-
-    if ($statement === false) {
-        echo mysqli_error($connection);
-    } else {
-        mysqli_stmt_bind_param($statement, "ssss", $first_name, $surname, $email, $password);
-
-        if(mysqli_stmt_execute($statement)) {
-
-            $id = mysqli_insert_id($connection);
-            return $id;
+        if (!$stmt) {
+            echo mysqli_error($connection);
         } else {
-            echo mysqli_stmt_error($statement);
+            $stmt->bindValue(":title", $title, PDO::PARAM_STR);
+            $stmt->bindValue(":author", $author, PDO::PARAM_STR);
+            $stmt->bindValue(":year_of_publication", $year_of_publication, PDO::PARAM_STR);
+            $stmt->bindValue(":genre", $genre, PDO::PARAM_STR);
+            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        }
+        $stmt->execute();
+    }
+
+//Funkce na vyhledávání kníh podle autora, názvu nebo žánru
+    public static function getBook_one($connection, $anything, $what)
+    {
+        $sql = "SELECT *
+                FROM kniha
+                WHERE $anything = :what";
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            echo mysqli_error($connection);
+        } else {
+            $stmt->bindValue(":what", $what, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                return $stmt->fetch();
+            }
         }
     }
-}
 
-function authorizationUsers($connection, $log_email, $log_password) {
+// Funkce na mazání knih
+    public static function deleteBook($connection, $id)
+    {
+        $sql = "DELETE FROM kniha WHERE id = $id";
+        if (mysqli_query($connection, $sql)) {
+            return;
+        } else {
+            echo mysqli_error($connection);
+        }
+
+    }
+
+    public static function creatBook($connection, $title, $author, $year_of_publication, $genre)
+    {
+        $sql = "INSERT INTO kniha (title, author, year_of_publication, genre)
+                            VALUES(:title,:author,:year_of_publication,:genre)";
+
+        $stmt = $connection->prepare($sql);
+
+        $stmt->bindValue(":title", $title, PDO::PARAM_STR);
+        $stmt->bindValue(":author", $author, PDO::PARAM_STR);
+        $stmt->bindValue(":year_of_publication", $year_of_publication, PDO::PARAM_STR);
+        $stmt->bindValue(":genre", $genre, PDO::PARAM_STR);
+// Execute the statement
+        try {
+            // Execute the statement
+            if ($stmt->execute()) {
+                // Optionally, you can return the last inserted ID or any other relevant information.
+                return $connection->lastInsertId();
+            } else {
+                // Handle errors if the execution fails
+                // You might want to log the error or throw an exception
+                throw new RuntimeException("Error executing the SQL statement.");
+            }
+        } catch (PDOException $e) {
+            // Handle PDO exceptions
+            // You might want to log the error or throw an exception with a more detailed message
+            throw new RuntimeException("Database error: " . $e->getMessage());
+        }
+
+    }
+}
+class Users {
+    //Funkce na zaregistrování nového uživatele
+     public static function registrationUsers($connection, $first_name, $surname, $email, $password)
+     {
+         $sql = "INSERT INTO users(first_name, surname, email, password)
+                VALUES(:first_name, :surname, :email, :password)";
+
+         $stmt = $connection->prepare($sql);
+
+         $stmt->bindValue(":first_name", $first_name, PDO::PARAM_STR);
+         $stmt->bindValue(":surname", $surname, PDO::PARAM_STR);
+         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+         $stmt->bindValue(":password", $password, PDO::PARAM_STR);
+
+         $stmt->execute();;
+         $id = $connection->lastInsertId();
+         return $id;
+     }
+
+
+
+    public static function authorizationUsers($connection, $log_email, $log_password)
+    {
         $sql = "SELECT password
                 FROM users
-                WHERE email = ?";
+                WHERE email = :email";
 
-        $stmt = mysqli_prepare($connection, $sql);
+        $stmt = $connection->prepare($sql);
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "s", $log_email);
-
-            if (mysqli_stmt_execute($stmt)){
-                $result_password = mysqli_stmt_get_result($stmt);
-                $password_database = mysqli_fetch_row($result_password); // zde je proměnná v poli
-                $user_password_database = $password_database[0];
-                if ($user_password_database){
-                    return password_verify($log_password, $user_password_database);
-                }
-        } else {
-                echo mysqli_error($connection);
-            };
+            $stmt->bindValue(":email", $log_email, PDO::PARAM_STR);
+            $stmt->execute();
+            if ($user = $stmt->fetch()) {
+                return password_verify($log_password, $user[0]);
+            }
         }
-}
+    }
 // Získání ID uživatele
-function getUserId($connection, $email) {
-    $sql = "SELECT id FROM users WHERE email = ?";
+    public static function getUserId($connection, $email) {
+        $sql = "SELECT id FROM users WHERE email = :email";
 
-    $stmt = mysqli_prepare($connection, $sql);
+        $stmt = $connection->prepare($sql);
 
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "s", $email);
-        if (mysqli_stmt_execute($stmt)) {
-            $result = mysqli_stmt_get_result($stmt);
-            $id_database = mysqli_fetch_row($result); //pole
-            $user_id =  $id_database[0];
+        if ($stmt) {
+            $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+            if ($stmt->execute()) {
+                $result = $stmt->fetch();
+                $user_id = $result[0];
+                echo $user_id;
+            }
 
-            echo $user_id;
+        } else {
+            echo mysqli_error($connection);
         }
-
-    } else {
-        echo mysqli_error($connection);
     }
 }

@@ -1,13 +1,13 @@
 <?php require "assetss/database.php";
-$connection = connectiondb();
+
+$database = new Database();
+$connection = $database->connectiondb();
 
 $sql = "SELECT * FROM kniha";
-$result = mysqli_query($connection, $sql);
-if($result === false){
-    echo mysqli_error($connection);
-} else{
-    $book = mysqli_fetch_all($result, MYSQLI_ASSOC);
-}
+$stmt = $connection->prepare($sql);
+
+$stmt->execute();
+$book = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 

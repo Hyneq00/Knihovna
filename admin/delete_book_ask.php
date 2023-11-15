@@ -1,11 +1,14 @@
 <?php
 require "../assetss/database.php";
-$connection = connectiondb();
 require "../assetss/funkce_kniha.php";
-require "authorization.php";
+require "../assetss/authorization.php";
+
+$database = new Database();
+$connection = $database->connectiondb();
+
 session_start();
 
-if (!isLoggedIn() ) {
+if (!Authorization::isLoggedIn() ) {
     die("Nepovolený přístup");
 }
 
@@ -19,7 +22,7 @@ $bookID = $_GET["id"];
                  header("Location: editace_knihy.php?id=$bookID");
                  break;
              case "yes":
-                 deleteBook($connection, $bookID);
+                 Books::deleteBook($connection, $bookID);
                  header("Location: admin_knihy.php");
                  break;
          }

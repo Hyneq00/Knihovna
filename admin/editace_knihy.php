@@ -1,17 +1,18 @@
 <?php
 require "../assetss/database.php";
 require "../assetss/funkce_kniha.php";
-require "authorization.php";
+require "../assetss/authorization.php";
 session_start();
 
-if (!isLoggedIn() ) {
+if (!Authorization::isLoggedIn() ) {
     die("Nepovolený přístup");
 }
 
-    $connection = connectiondb();
+    $database = new Database();
+    $connection = $database->connectiondb();
 
     if (isset($_GET["id"]) ){
-        $one_book = getBook($connection,$_GET["id"]);
+        $one_book = Books::getBook($connection,$_GET["id"]);
         if ($one_book){
             $title = $one_book["title"];
             $author = $one_book["author"];
@@ -35,7 +36,7 @@ if (!isLoggedIn() ) {
                     $author = $_POST["author"];
                     $year_of_publication = $_POST["year_of_publication"];
                     $genre = $_POST["genre"];
-                    updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
+                    Books::updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
                     $text = "Informace byli úspěšně změněny";
                     break;
                 case "delete":

@@ -2,10 +2,12 @@
 <?php
 require "assetss/database.php";
 require "assetss/funkce_kniha.php";
-$connection = connectiondb();
+
+$database = new Database();
+$connection = $database->connectiondb();
 
 if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
-    $book = getBook($connection,$_GET["id"]);
+    $book = Books::getBook($connection,$_GET["id"]);
 } else {
     $book = null;
 }
@@ -27,7 +29,7 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
                 <p> Kniha nenalezena </p>
     <?php  else: ?>
         <h1>Kniha</h1>
-        <h3>Název: <?=htmlspecialchars($book["title"])?></h3>
+        <h3>Název: <?=htmlspecialchars($book["title"]) ?> </h3>
         <h3>Autor: <?=htmlspecialchars($book["author"])?></h3>
         <h3>Rok vydání: <?=htmlspecialchars($book["year_of_publication"])?></h3>
         <h3>Žánr: <?=htmlspecialchars($book["genre"])?></h3>

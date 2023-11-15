@@ -1,7 +1,10 @@
 <?php
 require "../assetss/funkce_kniha.php";
 require "../assetss/database.php";
-$connection = connectiondb();
+
+$database = new Database();
+$connection = $database->connectiondb();
+
 session_start();
 
 
@@ -12,9 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = password_hash($_POST["password"],PASSWORD_DEFAULT);
     $password_confirm = $_POST["password_confirm"];
 
-    $id = registrationUsers($connection, $first_name, $surname, $email, $password);
-
-
+    $id = Users::registrationUsers($connection, $first_name, $surname, $email, $password);
 }
 if (empty($id)){
     echo "Uživatele se nepodařilo přidat";
@@ -25,6 +26,5 @@ if (empty($id)){
     $_SESSION["is_logged_in"] = true;
     // Nastavení ID uživatele
     $_SESSION["logged_in_user_id"] = $id;
-    header("Location: ../index.php");
+    header("Location: admin_index.php");
 }
-?>

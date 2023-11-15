@@ -1,7 +1,9 @@
 <?php
 require "assetss/database.php";
-$connection = connectiondb();
 require "assetss/funkce_kniha.php";
+
+$database = new Database();
+$connection = $database->connectiondb();
 
 if (isset($_POST["hledat"])) {
     $vyber = $_POST['searching'];

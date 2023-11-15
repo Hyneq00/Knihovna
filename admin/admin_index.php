@@ -1,11 +1,19 @@
 <?php
 require "../assetss/database.php";
-$connection = connectiondb();
 require "../assetss/funkce_kniha.php";
+require  "../assetss/authorization.php";
 
+$database = new Database();
+$connection = $database->connectiondb();
+
+session_start();
+
+if (!Authorization::isLoggedIn() ) {
+    die("Nepovolený přístup");
+}
 if (isset($_POST["hledat"])) {
     $vyber = $_POST['searching'];
-    $book = getBook_one($connection, $vyber, $_POST["hledat"]);
+    $book = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
     if (empty($book)) {
         if ($vyber === "title") {
             $text = "Hledaná kniha nebyla nalezena";

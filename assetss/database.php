@@ -1,22 +1,24 @@
 <?php
-/**
- * Připojení databáze
- * @return object - pro připojení dodatabáze
- * */
-    function connectiondb(){
-        $db_host = "localhost";
+class Database {
+    public function connectiondb() {
+        $db_host = "127.0.0.1";
+        $db_name = "knihovna";
         $db_user = "root";
         $db_password = "";
-        $db_name = "knihovna";
 
-        $connection = mysqli_connect($db_host, $db_user, $db_password, $db_name);
-        if (mysqli_connect_error()){
-            echo mysqli_connect_error();
+
+        $connection = "mysql:host=" . $db_host . ";dbname=" . $db_name . ";charset=utf8";
+
+        try {
+            $db = new PDO($connection, $db_user, $db_password);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $db;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            echo "  Chyba";
             exit();
         }
-        return $connection;
     }
 
+}
 
-
-?>
