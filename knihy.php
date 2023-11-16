@@ -5,9 +5,15 @@ $connection = $database->connectiondb();
 
 $sql = "SELECT * FROM kniha";
 $stmt = $connection->prepare($sql);
-
-$stmt->execute();
-$book = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    if ($stmt->execute()){
+        $book = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        throw new Exception("Chyba při připojení do datbáze");
+    }
+} catch (Exception $e) {
+    echo "Typ chyby: ". $e->getMessage();
+}
 
 ?>
 
@@ -17,6 +23,7 @@ $book = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type = "text/css" href="css/header.css">
+    <link rel="stylesheet" type = "text/css" href="css/style.css">
     <title>Document</title>
 </head>
 <body>

@@ -1,5 +1,7 @@
 <?php
-
+ if (isset($_GET["exist"])){
+     $email_exist_text = "Email je již zaregistrovaný";
+ }
 ?>
 
 
@@ -44,7 +46,9 @@
                    placeholder="Heslo znovu">
             <br>
             <p class="error_password_text"></p>
+            <p id="email_exist"><?= $email_exist_text ?></p>
             <br>
+
 
             <button type="submit"
                     id = "submit"

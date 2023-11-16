@@ -53,6 +53,10 @@ button:hover {
 #submit {
     display: none;
 }
+#email_exist {
+    color: black;
+    font-size: 30px;
+}
 
 .search {
   padding-top: 100px;

@@ -1,21 +1,21 @@
 <?php
- require "assetss/database.php";
- require "assetss/funkce_kniha.php";
-$database = new Database();
-$connection = $database->connectiondb();
+phpinfo();
 
-$book = Books::creatBook($connection, "pepa", "marie a josef", "@#$", "jajxs");
-var_dump($book);
-var_dump($connection);
-?>
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+$n1 = 50;
+$n2 = 10;
 
-</body>
-</html>
+
+
+
+
+try {
+    if ($n2 === 0) {
+        throw new Exception("Dělení nulou je zakázané");
+    }
+    $result = $n1 / $n2;
+    echo $result;
+} catch (Exception $e) {
+    error_log("CHyba dělení nulou", 3, "errors/error.log" );
+}
+
+

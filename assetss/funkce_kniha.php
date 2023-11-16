@@ -5,19 +5,25 @@
 class Books
 {
     // Získává jednu knihu z databaze podle ID
-    public static function getBook($connection, $id, $columns = "*")
+    public static function getBook($connection, $id)
     {
-        $sql = "SELECT $columns
+        $sql = "SELECT *
                 FROM kniha
                 WHERE id=:id";
+
         $stmt = $connection->prepare($sql);
-
-
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            if ($stmt->execute()) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                throw new Exception("Získání dat o knize selhalo");
+            }
+        } catch (Exception $e) {
+                echo "Typ chyby: ".$e->getMessage();
         }
+
+
     }
 
 
@@ -33,17 +39,24 @@ class Books
                  WHERE id = :id";
 
         $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt) {
+                $stmt->bindValue(":title", $title, PDO::PARAM_STR);
+                $stmt->bindValue(":author", $author, PDO::PARAM_STR);
+                $stmt->bindValue(":year_of_publication", $year_of_publication, PDO::PARAM_STR);
+                $stmt->bindValue(":genre", $genre, PDO::PARAM_STR);
+                $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+                $stmt->execute();
+            } else {
+                throw new Exception("Chyba při spojení do databáze, data se nepodařilo zapsat");
+            }
 
-        if (!$stmt) {
-            echo mysqli_error($connection);
-        } else {
-            $stmt->bindValue(":title", $title, PDO::PARAM_STR);
-            $stmt->bindValue(":author", $author, PDO::PARAM_STR);
-            $stmt->bindValue(":year_of_publication", $year_of_publication, PDO::PARAM_STR);
-            $stmt->bindValue(":genre", $genre, PDO::PARAM_STR);
-            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        } catch (Exception $e) {
+            echo "Typ chyby: ".$e->getMessage();
+            return "Error, data se nepodařilo zapsat";
         }
-        $stmt->execute();
+
+
     }
 
 //Funkce na vyhledávání kníh podle autora, názvu nebo žánru
@@ -53,29 +66,38 @@ class Books
                 FROM kniha
                 WHERE $anything = :what";
         $stmt = $connection->prepare($sql);
-
-        if (!$stmt) {
-            echo mysqli_error($connection);
-        } else {
-            $stmt->bindValue(":what", $what, PDO::PARAM_STR);
-
+        $stmt->bindValue(":what", $what, PDO::PARAM_STR);
+        try {
             if ($stmt->execute()) {
                 return $stmt->fetch();
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
             }
+        } catch (Exception $e) {
+            echo "Typ chyby: ".$e->getMessage();
+            return "error";
         }
     }
 
 // Funkce na mazání knih
     public static function deleteBook($connection, $id)
     {
-        $sql = "DELETE FROM kniha WHERE id = $id";
-        if (mysqli_query($connection, $sql)) {
-            return;
-        } else {
-            echo mysqli_error($connection);
-        }
+        $sql = "DELETE FROM kniha WHERE id = :id";
 
+        $stmt = $connection->prepare($sql);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+        try {
+            if ($stmt->execute()) {
+                return;
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ".$e->getMessage();
+        }
     }
+
 
     public static function creatBook($connection, $title, $author, $year_of_publication, $genre)
     {
@@ -88,21 +110,15 @@ class Books
         $stmt->bindValue(":author", $author, PDO::PARAM_STR);
         $stmt->bindValue(":year_of_publication", $year_of_publication, PDO::PARAM_STR);
         $stmt->bindValue(":genre", $genre, PDO::PARAM_STR);
-// Execute the statement
+
         try {
-            // Execute the statement
             if ($stmt->execute()) {
-                // Optionally, you can return the last inserted ID or any other relevant information.
                 return $connection->lastInsertId();
             } else {
-                // Handle errors if the execution fails
-                // You might want to log the error or throw an exception
-                throw new RuntimeException("Error executing the SQL statement.");
+                throw new Exception("Chyba při připojení do databáze");
             }
-        } catch (PDOException $e) {
-            // Handle PDO exceptions
-            // You might want to log the error or throw an exception with a more detailed message
-            throw new RuntimeException("Database error: " . $e->getMessage());
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
         }
 
     }
@@ -121,9 +137,16 @@ class Users {
          $stmt->bindValue(":email", $email, PDO::PARAM_STR);
          $stmt->bindValue(":password", $password, PDO::PARAM_STR);
 
-         $stmt->execute();;
-         $id = $connection->lastInsertId();
-         return $id;
+         try {
+             if ($stmt->execute()) {
+                 $id = $connection->lastInsertId();
+                 return $id;
+             } else {
+                 throw new Exception("Chyba při připojení do databáze");
+             }
+         } catch (Exception $e) {
+             echo "Typ chyby: ". $e->getMessage();
+         }
      }
 
 
@@ -135,13 +158,16 @@ class Users {
                 WHERE email = :email";
 
         $stmt = $connection->prepare($sql);
-
-        if ($stmt) {
-            $stmt->bindValue(":email", $log_email, PDO::PARAM_STR);
-            $stmt->execute();
-            if ($user = $stmt->fetch()) {
+        $stmt->bindValue(":email", $log_email, PDO::PARAM_STR);
+        try {
+            if ($stmt->execute()) {
+                $user = $stmt->fetch();
                 return password_verify($log_password, $user[0]);
-            }
+                } else {
+                    throw new Exception("Chyba při připojení do databáze");
+                }
+        } catch (Exception $e) {
+                echo "Typ chyby: ". $e->getMessage();
         }
     }
 // Získání ID uživatele
@@ -149,17 +175,44 @@ class Users {
         $sql = "SELECT id FROM users WHERE email = :email";
 
         $stmt = $connection->prepare($sql);
-
-        if ($stmt) {
-            $stmt->bindValue(":email", $email, PDO::PARAM_STR);
-            if ($stmt->execute()) {
-                $result = $stmt->fetch();
-                $user_id = $result[0];
-                echo $user_id;
+        try {
+            if ($stmt) {
+                $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+                if ($stmt->execute()) {
+                    $result = $stmt->fetch();
+                    $user_id = $result[0];
+                    echo $user_id;
+                }
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
             }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
 
-        } else {
-            echo mysqli_error($connection);
+    }
+    public static function isExistEmail($connection, $email) {
+         $sql ="SELECT id 
+                FROM users 
+                WHERE email = :email";
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt) {
+                $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+                if ($stmt->execute()) {
+                    $result = $stmt->fetch();
+                    $user_id = $result[0];
+                    if (empty($user_id)){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
         }
     }
 }

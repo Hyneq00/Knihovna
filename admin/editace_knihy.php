@@ -36,8 +36,13 @@ if (!Authorization::isLoggedIn() ) {
                     $author = $_POST["author"];
                     $year_of_publication = $_POST["year_of_publication"];
                     $genre = $_POST["genre"];
-                    Books::updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
-                    $text = "Informace byli úspěšně změněny";
+                    $error = Books::updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
+                    if ($error) {
+                        $text = $error;
+                    } else {
+                        $text = "Informace byli úspěšně změněny";
+                    }
+
                     break;
                 case "delete":
                     header("Location: delete_book_ask.php?id=$id");

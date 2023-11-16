@@ -7,7 +7,7 @@ $connection = $database->connectiondb();
 
 if (isset($_POST["hledat"])) {
     $vyber = $_POST['searching'];
-    $book = getBook_one($connection, $vyber, $_POST["hledat"]);
+    $book = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
 
     if (empty($book)) {
         if ($vyber === "title") {
@@ -17,6 +17,8 @@ if (isset($_POST["hledat"])) {
         } elseif ($vyber === "genre") {
             $text = "Hledaný žánr nebyl nalezen";
         }
+    } elseif ($book === "error") {
+        $text = "Error: chyba při připojení k  databázi";
     }
 }
 
@@ -40,7 +42,7 @@ if (isset($_POST["hledat"])) {
         <form action="index.php" method="post">
             <input type="radio"   name ="searching" value= "title" checked >Název
             <input type="radio"  name ="searching"    value= "author">Autor
-            <input type="radio" name= "searching" value= "genre">Téma <br>
+            <input type="radio" name= "searching" value= "genre">Žánr <br>
             <input type="text" name="hledat" placeholder="Hledat...">
             <button type="submit" name="vyhledat" value="vyhledat">Vyhledat</button>
             <br>
