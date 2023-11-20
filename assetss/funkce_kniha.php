@@ -122,7 +122,7 @@ class Books
         }
 
     }
-}
+
 class Users {
     //Funkce na zaregistrování nového uživatele
      public static function registrationUsers($connection, $first_name, $surname, $email, $password)
