@@ -22,12 +22,25 @@ $bookID = $_GET["id"];
                  header("Location: editace_knihy.php?id=$bookID");
                  break;
              case "yes":
+                $image= Books::deleteImage($connection,$bookID);
+                $image_path = "../uploads/".$image;
+                 if (file_exists($image_path)) {
+                     // Ověření oprávnění ke čtení a zápisu
+                     if (is_writable($image_path)) {
+                         unlink($image_path);
+                     }else {
+                         $pepa = "Nelze zapisovat a smazat obrazek, poraďte se s podporou IT";
+                     }
+                 } else {
+                     echo $pepa = "nic se nestalo";
+                 }
                  Books::deleteBook($connection, $bookID);
-                 header("Location: admin_knihy.php");
+                header("Location: admin_knihy.php");
                  break;
          }
      }
  }
+var_dump($pepa);
 ?>
 <!DOCTYPE html>
 <html lang="cs">

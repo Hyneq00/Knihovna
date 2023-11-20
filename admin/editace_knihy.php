@@ -4,6 +4,7 @@ require "../assetss/funkce_kniha.php";
 require "../assetss/authorization.php";
 session_start();
 
+
 if (!Authorization::isLoggedIn() ) {
     die("Nepovolený přístup");
 }
@@ -19,6 +20,9 @@ if (!Authorization::isLoggedIn() ) {
             $year_of_publication = $one_book["year_of_publication"];
             $genre = $one_book["genre"];
             $id = $one_book["id"];
+            $image = $one_book["image"];
+
+
         }  else {
             return;
         }
@@ -36,11 +40,24 @@ if (!Authorization::isLoggedIn() ) {
                     $author = $_POST["author"];
                     $year_of_publication = $_POST["year_of_publication"];
                     $genre = $_POST["genre"];
+                    if (!($_FILES["image"]["size"] === 0)) {
+                        Books::deleteImage($connection, $id);
+                        $image = Books::addImage($connection, $id, $title,$_FILES["image"]);
+                        if ($image === "extension") {
+                            $error_text = "Špatný typ souboru";
+                        } elseif ($image === "size") {
+                            $error_text = "Obrázek je moc veliký";
+                        } elseif ($image === "error") {
+                            $error_text = "Při nahrávání obrázku nastala chyba";
+                        } else {
+                            $succesfull = "Kniha byla úspěšně nahrána";
+                        }
+                    }
                     $error = Books::updateBook($connection, $title, $author, $year_of_publication, $genre, $id);
                     if ($error) {
                         $text = $error;
                     } else {
-                        $text = "Informace byli úspěšně změněny";
+                        $succesfull = "Informace byli úspěšně změněny";
                     }
 
                     break;
@@ -50,7 +67,7 @@ if (!Authorization::isLoggedIn() ) {
             }
         }
     }
-?>
+    ?>
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -65,9 +82,8 @@ if (!Authorization::isLoggedIn() ) {
     <main>
         <?php require "../assetss/admin_header.php" ?>
         <section class="logind" >
-            <form action="editace_knihy.php?id=<?=$one_book['id']?>" method="POST">
+            <form action="editace_knihy.php?id=<?=$one_book['id']?>" method="POST" enctype="multipart/form-data">
                 <h1>Upravit knihu</h1><br>
-
 
                 <input type="text"
                        name="title"
@@ -88,7 +104,24 @@ if (!Authorization::isLoggedIn() ) {
                 <input type="text"
                        name="genre"
                        placeholder="Žánr"
-                       value="<?= htmlspecialchars($genre) ?>"><br>
+                       value="<?= htmlspecialchars($genre) ?>">
+                <br>
+                <?php
+                $imagePath = "../uploads/$image";
+                // Kontrola, zda je soubor k dispozici
+                if (file_exists($imagePath)) {
+                    echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
+                } else {
+                    // Pokud chybi fotka, zobraz jinou
+                    echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
+                }
+                ?>
+                <br>
+                <input type="file"
+                       name="image">
+                <br>
+                <p><?=$error_text?></p>
+                <br>
                 <button type="submit"
                         class="button log log_reg_btn"
                         name="button"
@@ -99,7 +132,7 @@ if (!Authorization::isLoggedIn() ) {
                         name="button"
                         value="delete">Smazat knihu</button><br>
 
-                <p id="zobrazText" ><?=$text?></p>
+                <p id="zobrazText" ><?=$succesfull?></p>
                 <script>
                     //Nastavení času zobrazení textu, který se objevý po uložení infomací knihy
                     var zobrazTextElement = document.getElementById("zobrazText");

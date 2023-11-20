@@ -14,13 +14,21 @@ if (!Authorization::isLoggedIn() ) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $add = Books::creatBook($connection, $_POST["title"], $_POST["author"], $_POST["year_of_publication"], $_POST["genre"]);
-    if ($add) {
-        $succesfull = "Kniha byla úspěšně přidána";
-    }
+
+                $image_name = Books::creatBook($connection, $_POST["title"], $_POST["author"], $_POST["year_of_publication"], $_POST["genre"]);
+                $last_id = $image_name[0];
+                $title = $image_name[1];
+                $text = Books::addImage($connection, $last_id, $title, $_FILES["image"] );
+                if ($text === "extension") {
+                    $succesfull = "Špatný typ souboru";
+                } elseif ($text === "size") {
+                    $succesfull = "Obrázek je moc veliký";
+                } elseif ($text === "error") {
+                    $succesfull = "Při nahrávání obrázku nastala chyba";
+                } else {
+                    $succesfull = "Kniha byla úspěšně nahrána";
+                }
 }
-
-
 ?>
 
 
@@ -38,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php require "../assetss/admin_header.php" ?>
     <main>
         <section class="logind" >
-            <form action="add_book.php" method="POST">
+            <form action="add_book.php" method="POST" enctype="multipart/form-data">
                 <h1>Přidat knihu</h1>
 
                 <input type="text"
@@ -59,7 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <input type="text"
                        name="genre"
                        placeholder="Žánr"
-                       required><br>
+                       required>
+                <br>
+                <input type="file" name="image">
 
                 <h3> <?= $succesfull ?> </h3><br>
                 <button type="submit"

@@ -15,7 +15,7 @@ try {
     $result = $n1 / $n2;
     echo $result;
 } catch (Exception $e) {
-    error_log("CHyba dělení nulou", 3, "errors/error.log" );
+    error_log("CHyba dělení nulou", 3, "errors/error.txt" );
 }
 
 

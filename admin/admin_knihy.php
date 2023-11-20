@@ -37,6 +37,16 @@ $book = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php else: ?><ul>
     <?php foreach($book as $one_book): ?>
         <h1>Název:  <?=htmlspecialchars($one_book["title"])?></h1>
+        <?php
+        $imagePath = "../uploads/".$one_book["image"];
+        // Kontrola, zda je soubor k dispozici
+        if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
+            echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
+        } else {
+            // Pokud chybi fotka, zobraz jinou
+            echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
+        }
+        ?>
         <a href="admin_kniha.php?id=<?= $one_book["id"]?>">Info</a>
     <?php endforeach; ?>
     </ul>

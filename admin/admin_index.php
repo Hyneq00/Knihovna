@@ -27,7 +27,6 @@ if (isset($_POST["hledat"])) {
     }
 }
 
-
 ?>
 
 
@@ -60,6 +59,17 @@ if (isset($_POST["hledat"])) {
     <div class="conteiner">
         <?php foreach($book as $one_book): ?>
             <div class="vysledky">
+                <?php
+                $imagePath = "../uploads/".$one_book["image"];
+                // Kontrola, zda je soubor k dispozici
+                if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
+                    echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
+                } else {
+                    // Pokud chybi fotka, zobraz jinou
+                    echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
+                }
+                ?>
+                <br>
                 <h3>Název:  <?=htmlspecialchars($one_book["title"])?></h3>
                 <h3>Autor:  <?=htmlspecialchars($one_book["author"])?></h3>
                 <h3>Rok vydání:  <?=htmlspecialchars($one_book["year_of_publication"])?></h3>

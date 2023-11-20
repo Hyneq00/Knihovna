@@ -40,6 +40,17 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
         <h3>Autor: <?=htmlspecialchars($book["author"])?></h3>
         <h3>Rok vydání: <?=htmlspecialchars($book["year_of_publication"])?></h3>
         <h3>Žánr: <?=htmlspecialchars($book["genre"])?></h3>
+        <?php
+            $imagePath = "../uploads/".$book["image"];
+            // Kontrola, zda je soubor k dispozici
+            if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
+                echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
+            } else {
+                // Pokud chybi fotka, zobraz jinou
+                echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
+            }
+
+        ?>
     <?php endif ?>
 </section>
 <section class="butons" >
