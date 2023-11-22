@@ -7,7 +7,7 @@ $connection = $database->connectiondb();
 
 session_start();
 
-if (!Authorization::isLoggedInAdmin() ) {
+if (!Authorization::isLoggedInUser()) {
     die("Nepovolený přístup");
 }
 
@@ -49,7 +49,7 @@ $books = Books::allBooks($connection)
         <?php elseif ($one_book["avaliable"] === "false"): ?>
             <h1>Dostupnost:</h1> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
         <?php endif ?>
-        <a href="admin_kniha.php?id=<?= $one_book["id_book"]?>">Info</a>
+        <a href="kniha_users.php?id=<?=$one_book["id_book"]?>">Info</a>
     <?php endforeach; ?>
     </ul>
 

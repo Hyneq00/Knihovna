@@ -20,4 +20,4 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Přesměrování na úvodní stranu
-header("Location: ../index.php?>");
+header("Location: ../main/index.php?>");

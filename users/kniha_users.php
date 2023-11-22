@@ -1,17 +1,17 @@
+
 <?php
 require "../assetss/database.php";
 require "../assetss/funkce_kniha.php";
-require "../assetss/authorization.php";
+require  "../assetss/authorization.php";
 
 $database = new Database();
 $connection = $database->connectiondb();
 
 session_start();
 
-if (!Authorization::isLoggedInAdmin() ) {
+if (!Authorization::isLoggedInUser() ) {
     die("Nepovolený přístup");
 }
-
 if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
     $book = Books::getBook($connection,$_GET["id"]);
 } else {
@@ -30,7 +30,7 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
     <title>Document</title>
 </head>
 <body>
-<?php require "../assetss/admin_header.php";?>
+<?php require "../assetss/users_header.php";?>
 <section>
     <?php if ($book === null ): ?>
         <p> Kniha nenalezena </p>
@@ -41,26 +41,26 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
         <h3>Rok vydání: <?=htmlspecialchars($book["year_of_publication"])?></h3>
         <h3>Žánr: <?=htmlspecialchars($book["genre"])?></h3>
         <?php
-            $imagePath = "../uploads/".$book["image"];
-            // Kontrola, zda je soubor k dispozici
-            if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
-                echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
-            } else {
-                // Pokud chybi fotka, zobraz jinou
-                echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
-            }
+        $imagePath = "../uploads/".$book["image"];
+        // Kontrola, zda je soubor k dispozici
+        if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
+            echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
+        } else {
+            // Pokud chybi fotka, zobraz jinou
+            echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
+        }
+
         ?>
     <?php endif ?>
+    <br>
     <?php if($book["avaliable"] === "true"): ?>
-        <h3>Dostupnost:</h3><div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
+        <h3>Dostupnost:</h3>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
     <?php elseif ($book["avaliable"] === "false"): ?>
         <h3>Dostupnost:</h3> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
     <?php endif ?>
-</section>
-<section class="butons" >
     <br>
-    <a href="editace_knihy.php?id=<?=$book['id_book']?>">Editovat</a>
 </section>
+
 
 
 

@@ -8,7 +8,7 @@ $connection = $database->connectiondb();
 
 session_start();
 
-if (!Authorization::isLoggedIn() ) {
+if (!Authorization::isLoggedInAdmin() ) {
     die("Nepovolený přístup");
 }
 
@@ -25,14 +25,9 @@ $bookID = $_GET["id"];
                 $image= Books::deleteImage($connection,$bookID);
                 $image_path = "../uploads/".$image;
                  if (file_exists($image_path)) {
-                     // Ověření oprávnění ke čtení a zápisu
-                     if (is_writable($image_path)) {
-                         unlink($image_path);
-                     }else {
-                         $pepa = "Nelze zapisovat a smazat obrazek, poraďte se s podporou IT";
-                     }
+                     unlink($image_path);
                  } else {
-                     echo $pepa = "nic se nestalo";
+                     echo "Obrázek neexistuje";
                  }
                  Books::deleteBook($connection, $bookID);
                 header("Location: admin_knihy.php");
@@ -40,7 +35,6 @@ $bookID = $_GET["id"];
          }
      }
  }
-var_dump($pepa);
 ?>
 <!DOCTYPE html>
 <html lang="cs">

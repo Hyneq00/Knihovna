@@ -10,15 +10,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type = "text/css" href="css/header.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type = "text/css" href="../css/header.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Document</title>
 </head>
 <body>
-    <?php require "assetss/header.php" ?>
+    <?php require "../assetss/header.php" ?>
     <div class="logind" >
         <h1>Registrace</h1>
-        <form action="admin/registration_after.php" method="POST">
+        <form action="../admin/registration_after.php" method="POST">
             <input type="text"
                    name="first_name"
                    class="log"
@@ -58,6 +58,6 @@
                 id = "submit_wrong"
                 class="button log log_reg_btn">Zaregistrovat</button>
 </div>
-    <script src="js/script.js" ></script>
+    <script src="../js/script.js" ></script>
 </body>
 </html>

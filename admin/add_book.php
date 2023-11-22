@@ -9,7 +9,7 @@ $connection = $database->connectiondb();
 
 session_start();
 
-if (!Authorization::isLoggedIn() ) {
+if (!Authorization::isLoggedInAdmin() ) {
     die("Nepovolený přístup");
 }
 
@@ -51,22 +51,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <input type="text"
                        name="title"
-                       placeholder="Název"
+                       placeholder="Title"
                        required>
                 <br>
                 <input type="text"
                        name="author"
-                       placeholder="Autor"
+                       placeholder="Author"
                        required>
                 <br>
                 <input type="text"
                        name="year_of_publication"
-                       placeholder="Rok vydání"
+                       placeholder="Year_of_publication"
                        required>
                 <br>
                 <input type="text"
                        name="genre"
-                       placeholder="Žánr"
+                       placeholder="Genre"
                        required>
                 <br>
                 <input type="file" name="image">

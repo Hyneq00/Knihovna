@@ -5,7 +5,7 @@ require "../assetss/authorization.php";
 session_start();
 
 
-if (!Authorization::isLoggedIn() ) {
+if (!Authorization::isLoggedInAdmin() ) {
     die("Nepovolený přístup");
 }
 
@@ -19,7 +19,7 @@ if (!Authorization::isLoggedIn() ) {
             $author = $one_book["author"];
             $year_of_publication = $one_book["year_of_publication"];
             $genre = $one_book["genre"];
-            $id = $one_book["id"];
+            $id = $one_book["id_book"];
             $image = $one_book["image"];
 
 
@@ -82,7 +82,7 @@ if (!Authorization::isLoggedIn() ) {
     <main>
         <?php require "../assetss/admin_header.php" ?>
         <section class="logind" >
-            <form action="editace_knihy.php?id=<?=$one_book['id']?>" method="POST" enctype="multipart/form-data">
+            <form action="editace_knihy.php?id=<?=$one_book['id_book']?>" method="POST" enctype="multipart/form-data">
                 <h1>Upravit knihu</h1><br>
 
                 <input type="text"

@@ -8,7 +8,7 @@ $connection = $database->connectiondb();
 
 session_start();
 
-if (!Authorization::isLoggedInAdmin()) {
+if (!Authorization::isLoggedInUser() ) {
     die("Nepovolený přístup");
 }
 if (isset($_POST["hledat"])) {
@@ -41,14 +41,13 @@ if (isset($_POST["hledat"])) {
     <title>Document</title>
 </head>
 <body>
-<?php require "../assetss/admin_header.php" ?>
+<?php require "../assetss/users_header.php" ?>
 <main>
     <div class="search" >
-        <form action="admin_index.php" method="post">
+        <form action="index_users.php" method="post">
             <input type="radio"   name ="searching" value= "title" checked >Title
             <input type="radio"  name ="searching"    value= "author">Author
-            <input type="radio" name= "searching" value= "genre">Genre
-            <br>
+            <input type="radio" name= "searching" value= "genre">Genre <br>
             <input type="text" name="hledat" placeholder="Search...">
             <button type="submit" name="vyhledat" value="vyhledat">Search</button>
             <br>
@@ -75,13 +74,14 @@ if (isset($_POST["hledat"])) {
                 <h3>Author:  <?=htmlspecialchars($one_book["author"])?></h3>
                 <h3>Year of publication:  <?=htmlspecialchars($one_book["year_of_publication"])?></h3>
                 <h3>Genre:  <?=htmlspecialchars($one_book["genre"])?></h3>
+                <br>
                 <?php if($one_book["avaliable"] === "true"): ?>
-                    <h3>Dostupnost:</h3><div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
+                    <h3>Dostupnost:</h3>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
                 <?php elseif ($one_book["avaliable"] === "false"): ?>
-                    <h3>Dostupnost:</h3><div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
+                    <h3>Dostupnost:</h3> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
                 <?php endif ?>
                 <br>
-                <a href="admin_kniha.php?id=<?=$one_book['id_book']?>" >Info</a>
+                <a href="kniha_users.php?id=<?=$one_book["id_book"]?>">Info</a>
                 <br>
             </div>
         <?php endforeach; ?>

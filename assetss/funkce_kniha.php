@@ -4,6 +4,20 @@
 
 class Books
 {
+    public static function allBooks($connection){
+        $sql = "SELECT * FROM kniha";
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt->execute()){
+                $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $books;
+            } else {
+                throw new Exception("Chyba při připojení do datbáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+    }
     public static function creatBook($connection, $title, $author, $year_of_publication, $genre,)
     {
         $sql = "INSERT INTO kniha (title, author, year_of_publication, genre)
@@ -35,7 +49,7 @@ class Books
     {
         $sql = "SELECT *
                 FROM kniha
-                WHERE id=:id";
+                WHERE id_book = :id";
 
         $stmt = $connection->prepare($sql);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
@@ -62,7 +76,7 @@ class Books
                  author = :author,
                  year_of_publication = :year_of_publication,
                  genre = :genre
-                 WHERE id = :id";
+                 WHERE id_book = :id";
 
         $stmt = $connection->prepare($sql);
         try {
@@ -108,7 +122,7 @@ class Books
 // Funkce na mazání knih
     public static function deleteBook($connection, $id)
     {
-        $sql = "DELETE FROM kniha WHERE id = :id";
+        $sql = "DELETE FROM kniha WHERE id_book = :id";
 
         $stmt = $connection->prepare($sql);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
@@ -127,7 +141,7 @@ class Books
         $sql = "UPDATE kniha
                 SET
                 image = :image
-                WHERE id = :id";
+                WHERE id_book = :id";
         try {
             $image_error =  $image["error"];
             $image_size =  $image["size"];
@@ -180,7 +194,7 @@ class Books
     public static function deleteImage($connection, $id){
         $sql = "SELECT image 
                 FROM kniha 
-                WHERE id = :id";
+                WHERE id_book = :id";
 
         $stmt = $connection->prepare($sql);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
@@ -205,17 +219,57 @@ class Books
             echo "Typ chyby: " . $e->getMessage();
         }
     }
+    public static function loanBook($connection, $id_book) {
+        $sql = "UPDATE
+                kniha
+                SET
+                avaliable = 'false'
+                WHERE
+                id_book = :id_book";
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt) {
+                $stmt->bindValue(":id_book", $id_book, PDO::PARAM_INT);
+                $stmt->execute();
 
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+    }
+
+    public static function returnBook($connection, $id_book) {
+        $sql = "UPDATE
+                kniha
+                SET
+                avaliable = 'true'
+                WHERE
+                id_book = :id_book";
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt) {
+                $stmt->bindValue(":id_book", $id_book, PDO::PARAM_INT);
+                $stmt->execute();
+
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+    }
 
 
 
 }
 class Users {
     //Funkce na zaregistrování nového uživatele
-    public static function registrationUsers($connection, $first_name, $surname, $email, $password)
+    public static function registrationUsers($connection, $first_name, $surname, $email, $password, $role)
     {
-        $sql = "INSERT INTO users(first_name, surname, email, password)
-                VALUES(:first_name, :surname, :email, :password)";
+        $sql = "INSERT INTO users(first_name, surname, email, password, role)
+                VALUES(:first_name, :surname, :email, :password, :role)";
 
         $stmt = $connection->prepare($sql);
 
@@ -223,6 +277,7 @@ class Users {
         $stmt->bindValue(":surname", $surname, PDO::PARAM_STR);
         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
         $stmt->bindValue(":password", $password, PDO::PARAM_STR);
+        $stmt->bindValue(":role", $role, PDO::PARAM_STR);
 
         try {
             if ($stmt->execute()) {
@@ -259,16 +314,59 @@ class Users {
     }
 // Získání ID uživatele
     public static function getUserId($connection, $email) {
-        $sql = "SELECT id FROM users WHERE email = :email";
+        $sql = "SELECT id_user FROM users WHERE email = :email";
 
         $stmt = $connection->prepare($sql);
         try {
             if ($stmt) {
                 $stmt->bindValue(":email", $email, PDO::PARAM_STR);
                 if ($stmt->execute()) {
-                    $result = $stmt->fetch();
-                    $user_id = $result[0];
-                    echo $user_id;
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $user_id = $result["id_user"];
+                    return $user_id;
+                }
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+
+    }
+    //Zíkání udajú uživatele
+    public static function getInfoUser($connection,$id){
+        $sql = "SELECT * 
+                FROM users
+                WHERE id_user = :id";
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt) {
+                $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+                if ($stmt->execute()) {
+                    return $stmt->fetch(PDO::FETCH_ASSOC);
+                }
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+
+    }
+    //Zíkání role uživatele
+    public static function getUserRole($connection, $id) {
+        $sql = "SELECT role 
+                FROM users 
+                WHERE id_user = :id";
+
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt) {
+                $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+                if ($stmt->execute()) {
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $user_role = $result["role"];
+                    return $user_role;
                 }
             } else {
                 throw new Exception("Chyba při připojení do databáze");
@@ -279,7 +377,7 @@ class Users {
 
     }
     public static function isExistEmail($connection, $email) {
-        $sql ="SELECT id 
+        $sql ="SELECT id_user 
                 FROM users 
                 WHERE email = :email";
         $stmt = $connection->prepare($sql);
@@ -302,5 +400,107 @@ class Users {
             echo "Typ chyby: ". $e->getMessage();
         }
     }
-}
 
+    public static function userBorrows($connection, $id_user){
+        $sql = "SELECT loans.date_of_loan, loans.date_of_return, loans.loan_return, kniha.title, kniha.author 
+                FROM loans 
+                INNER JOIN kniha 
+                ON loans.id_book = kniha.id_book 
+                WHERE loans.id_user = :id_user ";
+
+        $stmt = $connection->prepare($sql);
+        $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+}
+class Loan {
+    public static function allLoans($connection){
+        $sql = "SELECT * 
+                FROM loans
+                JOIN kniha ON loans.id_book = kniha.id_book
+                JOIN users ON loans.id_user = users.id_user";
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+}
+    public static function loan($connection, $id_user, $id_book)
+    {
+        $sql = "INSERT INTO loans (id_user, id_book, date_of_loan)
+                VALUES (:id_user, :id_book,:date_of_loan)";
+        $today = date("Y-m-d");
+        $stmt = $connection->prepare($sql);
+        try {
+            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+            $stmt->bindValue(":id_book", $id_book, PDO::PARAM_INT);
+            $stmt->bindValue(":date_of_loan", $today, PDO::PARAM_STR);
+            if ($stmt->execute()) {
+                return;
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+    }
+    public static function checkloan($connection, $id_user, $id_book) {
+
+        $sql = "SELECT id_loan
+                FROM loans
+                WHERE
+                loan_return = 'false' and
+                id_user = :id_user and
+                id_book = :id_book";
+
+        $stmt = $connection->prepare($sql);
+        try {
+            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+            $stmt->bindValue(":id_book", $id_book, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                $result = $stmt->fetch();
+                $user_id = $result[0];
+                return $user_id;
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+
+    }
+    public static function return_($connection, $id_loan) {
+
+        $sql = "UPDATE loans
+                SET 
+                date_of_return = :date_of_return,
+                loan_return = 'true'
+                WHERE 
+                id_loan = :id_loan";
+
+        $today = date("Y-m-d");
+
+        try {
+            if ($stmt = $connection->prepare($sql)) {
+                $stmt->bindValue(":id_loan", $id_loan, PDO::PARAM_STR);
+                $stmt->bindValue(":date_of_return", $today, PDO::PARAM_STR);
+                return $stmt->execute();
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+        }
+
+    }
+
+}

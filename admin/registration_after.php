@@ -14,9 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"];
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $password_confirm = $_POST["password_confirm"];
+    $role = "user";
     $email_exist = Users::isExistEmail($connection, $email);
     if ($email_exist) {
-        $id = Users::registrationUsers($connection, $first_name, $surname, $email, $password);
+        $id = Users::registrationUsers($connection, $first_name, $surname, $email, $password, $role);
         if (empty($id)) {
             echo "Uživatele se nepodařilo přidat";
         } else {
@@ -26,9 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["is_logged_in"] = true;
             // Nastavení ID uživatele
             $_SESSION["logged_in_user_id"] = $id;
+            // Nastavení role
+            $_SESSION["role"] = $role;
             header("Location: admin_index.php");
         }
     } else {
-        header("Location:../registration.php?exist");
+        header("Location:../main/registration.php?exist");
     }
 }

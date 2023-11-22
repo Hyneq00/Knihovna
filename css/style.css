@@ -136,3 +136,25 @@ h3  {
     margin: 0 auto;
     width: 330px;
 }
+
+.ctverec{
+    border-bottom: 2px solid black ;
+    border-top: 2px solid black ;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin: 0 auto;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}

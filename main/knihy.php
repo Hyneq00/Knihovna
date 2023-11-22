@@ -1,18 +1,11 @@
-<?php
-require "../assetss/database.php";
-require "../assetss/authorization.php";
+<?php require "../assetss/database.php";
 require "../assetss/funkce_kniha.php";
+
 $database = new Database();
 $connection = $database->connectiondb();
 
-session_start();
-
-if (!Authorization::isLoggedInAdmin() ) {
-    die("Nepovolený přístup");
-}
 
 $books = Books::allBooks($connection)
-
 
 ?>
 
@@ -22,18 +15,17 @@ $books = Books::allBooks($connection)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type = "text/css" href="../css/header.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" type = "text/css" href="../css/style.css">
     <title>Document</title>
 </head>
 <body>
-<?php require "../assetss/admin_header.php" ?>
-<h1>Seznam všech knih</h1><br>
+<?php require "../assetss/header.php" ?>
+<h1>List of books</h1><br>
 <?php if (empty($books)):?>
-    <p>Nenalezeno</p>
-<?php else: ?>
-    <ul>
+    <p>Was not founded</p>
+<?php else: ?><ul>
     <?php foreach($books as $one_book): ?>
-        <h1>Název:  <?=htmlspecialchars($one_book["title"])?></h1>
+        <h1>Title:  <?=htmlspecialchars($one_book["title"])?></h1>
         <?php
         $imagePath = "../uploads/".$one_book["image"];
         // Kontrola, zda je soubor k dispozici
@@ -44,12 +36,14 @@ $books = Books::allBooks($connection)
             echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
         }
         ?>
+        <br>
         <?php if($one_book["avaliable"] === "true"): ?>
-          <h1>Dostupnost:</h1>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
+            <h3>Dostupnost:</h3>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
         <?php elseif ($one_book["avaliable"] === "false"): ?>
-            <h1>Dostupnost:</h1> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
+            <h3>Dostupnost:</h3> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
         <?php endif ?>
-        <a href="admin_kniha.php?id=<?= $one_book["id_book"]?>">Info</a>
+        <br>
+        <a href="kniha.php?id=<?= $one_book["id_book"]?>">Info</a>
     <?php endforeach; ?>
     </ul>
 
