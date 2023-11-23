@@ -26,7 +26,7 @@ nav ul li a {
   border-radius: 10px;
   
 }
-a.active, a:hover {
+a:hover {
   background-color: rgb(123, 118, 118);
   color: azure;
   padding: 7px 13px;
@@ -72,7 +72,7 @@ a.active, a:hover {
   nav ul li a {
     font-size: 20px;
   }
-  a:hover, a.active{
+  a:hover{
     background: none;
     color: white;
     background-color: rgb(123, 118, 118);

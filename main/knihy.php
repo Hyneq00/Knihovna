@@ -15,6 +15,7 @@ $books = Books::allBooks($connection)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require "../assetss/link_main.php" ?>
+    <link rel="stylesheet" href="../css/books.css">
     <title>Document</title>
 </head>
 <body>
@@ -23,28 +24,41 @@ $books = Books::allBooks($connection)
 <?php if (empty($books)):?>
     <p>Was not founded</p>
 <?php else: ?><ul>
-    <?php foreach($books as $one_book): ?>
-        <h1>Title:  <?=htmlspecialchars($one_book["title"])?></h1>
-        <?php
-        $imagePath = "../uploads/".$one_book["image"];
-        // Kontrola, zda je soubor k dispozici
-        if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
-            echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
-        } else {
-            // Pokud chybi fotka, zobraz jinou
-            echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
-        }
-        ?>
-        <br>
-        <?php if($one_book["avaliable"] === "true"): ?>
-            <h3>Dostupnost:</h3>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
-        <?php elseif ($one_book["avaliable"] === "false"): ?>
-            <h3>Dostupnost:</h3> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
-        <?php endif ?>
-        <br>
-        <a href="kniha.php?id=<?= $one_book["id_book"]?>">Info</a>
-    <?php endforeach; ?>
-    </ul>
+    <div class="container">
+        <?php foreach($books as $one_book): ?>
+            <div class="result">
+                <?php
+                $imagePath = "../uploads/".$one_book["image"];
+                $imageSource = file_exists($imagePath) && $imagePath !== "../uploads/" ? $imagePath : "../uploads/001.png";
+                ?>
+                <img src="<?= $imageSource ?>" alt="Book Image">
+                
+                <div class="info-container">
+                    <div class="name-container">
+                        <span class="left-name"><h3>Title:</h3></span>
+                        <span class="right-name"><h2><?= htmlspecialchars($one_book["title"]) ?></h2></span>
+                    </div>
+                    <div class="name-container">
+                        <span class="left-name"><h3>Author:</h3></span>
+                        <span class="right-name"><h2><?= htmlspecialchars($one_book["author"]) ?></h2></span>
+                    </div>
+                    
+                    <div class="name-container">
+                        <span class="left-name"><h3>Year of publication:</h3></span>
+                        <span class="right-name"><h2><?= htmlspecialchars($one_book["year_of_publication"]) ?></h2></span>
+                    </div>
+                    <div class="name-container">
+                        <span class="left-name"><h3>Dostupnost:</h3></span>
+                        <span class="right-name"><div class="colorSquare" style="background-color: <?= $one_book["avaliable"] === "true" ? "green" : "red" ?>"></div></span>
+                    </div>
+                    <div class="info">
+                    <h3><a href="kniha.php?id=<?= htmlspecialchars($one_book["id_book"]) ?>">Info</a></h3>
+                    </div>
+                    
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 
 <?php endif;?>
 
