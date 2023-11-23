@@ -19,12 +19,11 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type = "text/css" href="../css/header.css">
-    <link rel="stylesheet" type = "text/css"  href="../css/style.css">
+    <?php require "../assetss/link_main.php" ?>
     <title>Document</title>
 </head>
 <body>
-<?php require "../assetss/header.php";?>
+<?php require "../assetss/header_main.php" ?>
 <section>
     <?php if ($book === null ): ?>
         <p> Book was not founded. </p>

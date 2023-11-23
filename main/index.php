@@ -13,11 +13,11 @@ if (isset($_POST["hledat"])) {
 
     if (empty($book)) {
         if ($vyber === "title") {
-            $text = "The wanted book was not found";
+            $text = "The wanted book was not founded";
         } elseif ($vyber === "author") {
-            $text = "The wanted author was not found";
+            $text = "The wanted author was not founded";
         } elseif ($vyber === "genre") {
-            $text = "The wanted genre was not found";
+            $text = "The wanted genre was not founded";
         }
     } elseif ($book === "error") {
         $text = "Error: chyba při připojení k  databázi";
@@ -32,13 +32,11 @@ if (isset($_POST["hledat"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../js/script.js"></script>
-    <link rel="stylesheet" type = "text/css" href="../css/header.css">
-    <link rel="stylesheet" type = "text/css" href="../css/style.css">
+    <?php require "../assetss/link_main.php" ?>
     <title>Document</title>
 </head>
 <body>
-    <?php require "../assetss/header.php" ?>
+    <?php require "../assetss/header_main.php" ?>
     <main>
     <div class="search" >
         <form action="index.php" method="post">
@@ -73,9 +71,9 @@ if (isset($_POST["hledat"])) {
                     <h3>Year of publication:  <?=htmlspecialchars($one_book["year_of_publication"])?></h3>
                     <h3>Genre:  <?=htmlspecialchars($one_book["genre"])?></h3>
                     <br>
-                    <?php if($book["avaliable"] === "true"): ?>
+                    <?php if($one_book["avaliable"] === "true"): ?>
                         <h3>Dostupnost:</h3>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
-                    <?php elseif ($book["avaliable"] === "false"): ?>
+                    <?php elseif ($one_book["avaliable"] === "false"): ?>
                         <h3>Dostupnost:</h3> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
                     <?php endif ?>
                     <br>

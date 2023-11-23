@@ -417,11 +417,12 @@ class Users {
 
 }
 class Loan {
-    public static function allLoans($connection){
+    public static function allLoans($connection, $sql_plus){
         $sql = "SELECT * 
                 FROM loans
                 JOIN kniha ON loans.id_book = kniha.id_book
-                JOIN users ON loans.id_user = users.id_user";
+                JOIN users ON loans.id_user = users.id_user 
+                $sql_plus";
         $stmt = $connection->prepare($sql);
         try {
             if ($stmt->execute()) {

@@ -10,12 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../script.js"></script>
-    <link rel="stylesheet" type = "text/css" href="../css/header.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <?php require "../assetss/link_main.php" ?>
     <title>Document</title>
 </head>
 <body>
-    <?php require "../assetss/header.php" ?>
+<?php require "../assetss/header_main.php" ?>
     <div class="logind" >
     <h1>Přihlášení</h1>
         <form action="../admin/log_in.php" method="POST">

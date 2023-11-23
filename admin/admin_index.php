@@ -16,11 +16,11 @@ if (isset($_POST["hledat"])) {
     $book = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
     if (empty($book)) {
         if ($vyber === "title") {
-            $text = "The wanted book was not found";
+            $text = "The wanted book was not founded";
         } elseif ($vyber === "author") {
-            $text = "The wanted author was not found";
+            $text = "The wanted author was not founded";
         } elseif ($vyber === "genre") {
-            $text = "The wanted genre was not found";
+            $text = "The wanted genre was not founded";
         }
     } elseif ($book === "error") {
         $text = "Error: Chyba při připojení k  databázi";
@@ -36,8 +36,7 @@ if (isset($_POST["hledat"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/script.js"></script>
-    <link rel="stylesheet" type = "text/css" href="../css/header.css">
-    <link rel="stylesheet" type = "text/css" href="../css/style.css">
+    <?php require "../assetss/link_admin.php" ?>
     <title>Document</title>
 </head>
 <body>

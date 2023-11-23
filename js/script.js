@@ -1,3 +1,16 @@
+const passwordInput = document.getElementById('password');
+const passwordInfo = document.getElementById('password-info');
+
+passwordInput.addEventListener('mouseover', () => {
+    passwordInfo.style.display = 'block';
+});
+
+passwordInput.addEventListener('mouseout', () => {
+    passwordInfo.style.display = 'none';
+});
+
+
+
 const password1 = document.querySelector(".password")
 const password2 = document.querySelector(".passwordControl")
 const control = document.querySelector(".error_password_text")

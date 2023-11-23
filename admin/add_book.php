@@ -38,8 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <?php require "../assetss/link_admin.php" ?>
     <title>Document</title>
 </head>
 <body>

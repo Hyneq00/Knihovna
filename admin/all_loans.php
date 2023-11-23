@@ -13,10 +13,29 @@ session_start();
 if (!Authorization::isLoggedInAdmin()) {
     die("Nepovolený přístup");
 }
-    $loan = Loan::allLoans($connection);
+    $sort = $_POST["sort"];
+    switch ($sort) {
+        case "id_desc":
+            $sql_plus = "ORDER BY id_loan DESC";
+            break;
+        case "id_asc":
+            $sql_plus = "ORDER BY id_loan ASC";
+            break;
+        case "ret_notret":
+            $sql_plus = "ORDER BY loan_return DESC";
+            break;
+        case "notret_ret":
+            $sql_plus = "ORDER BY loan_return ASC";
+            break;
+        case "":
+            $sql_plus = "ORDER BY id_loan DESC";
+            break;
+        default:
+            $sql_plus = "ORDER BY id_loan DESC";
+    }
+    $loan = Loan::allLoans($connection, $sql_plus);
 
-
-
+    
 ?>
 
 
@@ -25,13 +44,22 @@ if (!Authorization::isLoggedInAdmin()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <?php require "../assetss/link_admin.php" ?>
     <title>Document</title>
 </head>
 <body>
 <?php require "../assetss/admin_header.php" ?>
 <main>
+    <form method="post" action="all_loans.php">
+        <label for="sort">Sort:</label>
+        <select id="sort" name="sort">
+            <option value="id_desc" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'id_desc') echo 'selected="selected"'; ?>>ID desc</option>
+            <option value="id_asc" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'id_asc') echo 'selected="selected"'; ?>>ID asc</option>
+            <option value="ret_notret" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'ret_notret') echo 'selected="selected"'; ?>>Returned/Not returned</option>
+            <option value="notret_ret" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'notret_ret') echo 'selected="selected"'; ?>>Not returned/returned</option>
+        </select>
+        <button type="submit" >Sort</button>
+    </form>
     <table>
         <thead>
         <tr>

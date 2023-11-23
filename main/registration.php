@@ -10,12 +10,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type = "text/css" href="../css/header.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <?php require "../assetss/link_main.php" ?>
     <title>Document</title>
 </head>
 <body>
-    <?php require "../assetss/header.php" ?>
+<?php require "../assetss/header_main.php" ?>
+ 
     <div class="logind" >
         <h1>Registrace</h1>
         <form action="../admin/registration_after.php" method="POST">
@@ -35,10 +35,19 @@
                    required
                    placeholder="E-mail"><br>
             <input type="password"
+                   id="password"
                    class="log password"
                    name="password"
+                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
                    required
-                   placeholder="Heslo"><br>
+                   placeholder="Heslo">
+            <span id="password-info">
+                Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, alespoň jednu číslici a být alespoň 8 znaků dlouhé.
+            </span>
+            <script>
+
+            </script>
+            <br>
             <input type="password"
                    class="log passwordControl"
                    name = password_confirm

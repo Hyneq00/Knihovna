@@ -21,12 +21,12 @@ $books = Books::allBooks($connection)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type = "text/css" href="../css/header.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <?php require "../assetss/link_users.php" ?>
     <title>Document</title>
 </head>
 <body>
-<?php require "../assetss/admin_header.php" ?>
+<?php require"../assetss/users_header.php" ?>
+
 <h1>Seznam všech knih</h1><br>
 <?php if (empty($books)):?>
     <p>Nenalezeno</p>
