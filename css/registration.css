@@ -1,0 +1,14 @@
+.valid{
+    background-color: #2bd62b;
+    color: white;
+    font-size: 30px;
+    margin: 0 auto;
+    width: 220px;
+}
+.invalid {
+    background-color: red;
+    color: white;
+    font-size: 30px;
+    margin: 0 auto;
+    width: 330px;
+}

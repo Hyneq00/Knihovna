@@ -1,0 +1,34 @@
+.sort{
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 10px 30px;
+
+}
+.sort form select{
+    width: auto;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgb(231, 231, 231);
+}
+.sort form button {
+    width: auto;
+    font-size: 23px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgb(231, 231, 231);
+    padding: 0 5px;
+}
+.sort form button:hover{
+    font-size: 25px;
+    background-color: #a8a5a5;
+    border-bottom: 1px solid #ccc;
+}
+.main_title {
+    position: relative;
+    margin-bottom: 20px;
+    top: 10px;
+    font-size: 35px;
+  }

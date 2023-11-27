@@ -18,23 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id_book = $_POST["id_book"];
             switch($_POST["loanOrReturn"]){
                case "loan":
-                    $loan = new Loan();
-                    $loan->loan($connection,$id_user, $id_book);
+                   $loanInstance = new Loan();
+                   $loanInstance->loan($connection, $id_user, $id_book);
                    Books::loanBook($connection, $id_book);
                    break;
                case "return":
                    $id_return = Loan::checkloan($connection, $id_user, $id_book);
+                    $result  = Loan::return_($connection, $id_return);
+                    Books::returnBook($connection, $id_book);
                   if($id_return === NULL){
                       $text = "Knihu nelze vrátit";
                   } else {
-                        $result  = Loan::return_($connection, $id_return);
-                        if ($result){
-                            $resul = Books::returnBook($connection, $id_book);
-                            if($resul){
-                            $text = "Kniha úspěšně vrácena";
-                            }
-                            
-                        }
+                      $text = "Kniha úspěšně vrácena";
                   }
                    break;
            }}
@@ -47,36 +42,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/inputs.css">
-    <link rel="stylesheet" href="../css/loan.css">
     <?php require "../assetss/link_admin.php" ?>
     <title>Document</title>
 </head>
 <body>
 <?php require "../assetss/admin_header.php" ?>
     <main>
-        <div class="logind">
-            <form class="login-form" action="loan.php" method="POST">
-                    <div class="radio_int">
-                        <input type="radio" id="loan" name="loanOrReturn" value= "loan" checked ><label for="loan">Loan</label>
-                        
-                        <input type="radio" name="loanOrReturn" id="return" value="return"><label for="return">Return</label>
-                    </div>
+        <section>
+            <form action="loan.php" method="POST">
                 <input type="text"
                        name="id_user"
                        placeholder="Id user"
                        value="<?=$id_user?>"
                        required>
+                <br>
+                <input type="radio"   name ="loanOrReturn" value= "loan" checked >Loan
+                <input type="radio"  name ="loanOrReturn"    value= "return">Return
+                <br>
                 <input type="text"
                        name="id_book"
                        placeholder="Book"
                        required>
+                <br>
+                <br>
                 <button type="submit"
                         class="button log log_reg_btn"
                         value="add_id_user"> O </button>
             </form>
             <h1><?=$text?></h1>
-        </div>
+        </section>
 
     </main>
 </body>

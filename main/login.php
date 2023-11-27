@@ -9,24 +9,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../script.js"></script>
+    <link rel="stylesheet" href="../css/inputs.css">
     <?php require "../assetss/link_main.php" ?>
     <title>Document</title>
 </head>
 <body>
 <?php require "../assetss/header_main.php" ?>
     <div class="logind" >
-    <h1>Přihlášení</h1>
-        <form action="../admin/log_in.php" method="POST">
+        <form class="login-form" action="../admin/log_in.php" method="POST">
+            <h1>Přihlášení</h1>
             <input type="email" name = "log_email" class="log" placeholder="Email">
-            <br>
+        
             <input type="password" name = "log_password" class="log" placeholder="Heslo">
-            <br>
+           
             <p class="hlaska"><?= $error ?> </p>
-            <br>
-            <button type="submit" class="log log_reg_btn">Přihlasit</button>
-
-
+            <button type="submit" >Přihlasit</button>
         </form>
 </div>
 </body>

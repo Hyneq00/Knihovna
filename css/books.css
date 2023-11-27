@@ -10,7 +10,7 @@ h3 {
 }
 
 .result {
-    width: 500px;
+    width: 450px;
     margin: 10px;
     padding: 15px;
     border: 1px solid #ccc;
@@ -25,8 +25,8 @@ h3 {
 }
 
 .result img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 500px;
     border-radius: 10px;
     margin-bottom: 10px;
 }
@@ -57,6 +57,7 @@ h2 {
     background-color: rgb(86, 86, 86);
     padding: 3px;
     border-radius: 10px;
+    text-decoration: none;
 }
 .info a:hover {
     
@@ -74,17 +75,9 @@ h2 {
 .no_search {
     margin-top: 100px;
 }
-.valid{
-    background-color: #2bd62b;
-    color: white;
-    font-size: 30px;
-    margin: 0 auto;
-    width: 220px;
+.sort{
+    margin-left: 90px;
 }
-.invalid {
-    background-color: red;
-    color: white;
-    font-size: 30px;
-    margin: 0 auto;
-    width: 330px;
+.main_title{
+    left:90px;
 }

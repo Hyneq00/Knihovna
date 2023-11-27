@@ -4,7 +4,7 @@
         <label for="check" class="checkbtn" >
             <i class="fa-solid fa-bars"></i>
         </label>
-        <ul>
+        <ul class="head">
             <li><a href="index.php" >Main page</a></li>
             <li><a  href="knihy.php" >Books</a></li>
             <li><a href="login.php" >Log in</a></li>

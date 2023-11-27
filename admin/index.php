@@ -6,7 +6,7 @@ $database = new Database();
 $connection = $database->connectiondb();
 
 $role = $_SESSION["role"];
-
+$books = [];
 if (isset($_POST["hledat"])) {
     $vyber = $_POST['searching'];
     $books = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
@@ -80,14 +80,12 @@ if (isset($_POST["hledat"])) {
                             <span class="left-name"><h3>Dostupnost:</h3></span>
                             <span class="right-name"><div class="colorSquare" style="background-color: <?= $one_book["avaliable"] === "true" ? "green" : "red" ?>"></div></span>
                         </div>
-                        <div class="info"><h3><a href="kniha.php?id=<?= htmlspecialchars($one_book["id_book"]) ?>">Info</a></h3>
-                    </div>
 
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </main>
-
+    <script src="../js/main.js" ></script>
 </body>
 </html>

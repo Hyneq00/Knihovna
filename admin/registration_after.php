@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: admin_index.php");
         }
     } else {
-        header("Location:../main/registration.php?exist");
+        $_SESSION["email-exist"] = "true";
+        header("Location:../main/registration.php");
     }
 }

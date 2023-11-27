@@ -13,8 +13,8 @@ if (!Authorization::isLoggedInUser() ) {
 }
 if (isset($_POST["hledat"])) {
     $vyber = $_POST['searching'];
-    $book = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
-    if (empty($book)) {
+    $books = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
+    if (empty($books)) {
         if ($vyber === "title") {
             $text = "The wanted book was not founded";
         } elseif ($vyber === "author") {
@@ -22,7 +22,7 @@ if (isset($_POST["hledat"])) {
         } elseif ($vyber === "genre") {
             $text = "The wanted genre was not founded";
         }
-    } elseif ($book === "error") {
+    } elseif ($books === "error") {
         $text = "Error: Chyba při připojení k  databázi";
     }
 }
@@ -57,7 +57,7 @@ if (isset($_POST["hledat"])) {
         </form>
     </div>
     <div class="container">
-    <?php foreach($book as $one_book): ?>
+    <?php foreach($books as $one_book): ?>
         <div class="result">
             <?php
             $imagePath = "../uploads/".$one_book["image"];

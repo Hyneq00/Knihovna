@@ -2,7 +2,7 @@
 class Database {
     public function connectiondb() {
         $db_host = "127.0.0.1";
-        $db_name = "knihovna";
+        $db_name = "Knihovna";
         $db_user = "root";
         $db_password = "";
 

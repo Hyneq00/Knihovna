@@ -1,7 +1,5 @@
 <?php
 
-
-
 class Books
 {
     public static function allBooks($connection){
@@ -18,7 +16,7 @@ class Books
             echo "Typ chyby: ". $e->getMessage();
         }
     }
-    public static function creatBook($connection, $title, $author, $year_of_publication, $genre,)
+    public static function creatBook($connection, $title, $author, $year_of_publication, $genre)
     {
         $sql = "INSERT INTO kniha (title, author, year_of_publication, genre)
                             VALUES(:title,:author,:year_of_publication,:genre)";
@@ -119,6 +117,21 @@ class Books
         }
     }
 
+    public static function sortBooks($connection, $sql_plus){
+        $sql = "SELECT * 
+        FROM kniha 
+        $sql_plus";
+        $stmt = $connection->prepare($sql);
+        try {
+        if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+      }
+    }
 // Funkce na mazání knih
     public static function deleteBook($connection, $id)
     {
@@ -251,7 +264,7 @@ class Books
         try {
             if ($stmt) {
                 $stmt->bindValue(":id_book", $id_book, PDO::PARAM_INT);
-                $stmt->execute();
+                return $stmt->execute();
 
             } else {
                 throw new Exception("Chyba při připojení do databáze");
@@ -432,10 +445,9 @@ class Loan {
             }
         } catch (Exception $e) {
             echo "Typ chyby: ". $e->getMessage();
-        }
-}
-    public static function loan($connection, $id_user, $id_book)
-    {
+      		}
+	}
+    public function loan($connection, $id_user, $id_book) {
         $sql = "INSERT INTO loans (id_user, id_book, date_of_loan)
                 VALUES (:id_user, :id_book,:date_of_loan)";
         $today = date("Y-m-d");

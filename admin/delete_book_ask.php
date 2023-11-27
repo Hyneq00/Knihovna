@@ -41,25 +41,26 @@ $bookID = $_GET["id"];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/inputs.css">
+    <link rel="stylesheet" href="../css/delete_btn.css">
     <?php require "../assetss/link_admin.php" ?>
-    <title>Document</title>
+    <title>Delete book</title>
 </head>
 <body>
 <?php require "../assetss/admin_header.php" ?>
 <section class="logind" >
-        <h1>Opravdu chcete smazet knihu?</h1><br><br><br>
-
-
+    <h1>Are you sure for delete book?</h1>
     <form action="" method="POST">
+        <div class="btn-con">
         <button type="submit"
-                class="button log log_reg_btn"
+                class="delet_btn"
                 name="button"
-                value="yes">Ano</button>
-
+                value="yes">Yes</button>
         <button type="submit"
-                class="button log log_reg_btn"
+                class=""
                 name="button"
-                value="no">Ne</button><br>
+                value="no">No</button>
+                </div>
     </form>
 </body>
 </html>

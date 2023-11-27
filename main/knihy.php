@@ -3,9 +3,29 @@ require "../assetss/funkce_kniha.php";
 
 $database = new Database();
 $connection = $database->connectiondb();
+if (empty($books)) {
+    $books=[];
+}
 
+$sort = $_POST["sort"];
+switch ($sort) {
+    case "author_desc":
+        $sql_plus = "ORDER BY author DESC";
+        break;
+    case "author_asc":
+        $sql_plus = "ORDER BY author ASC";
+        break;
+    case "yofp_desc":
+        $sql_plus = "ORDER BY year_of_publication DESC";
+        break;
+    case "yofp_asc":
+        $sql_plus = "ORDER BY year_of_publication ASC";
+        break;
+    default:
+        $sql_plus = "ORDER BY id_book DESC";
+}
+$books = Books::sortBooks($connection, $sql_plus);
 
-$books = Books::allBooks($connection)
 
 ?>
 
@@ -15,18 +35,33 @@ $books = Books::allBooks($connection)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require "../assetss/link_main.php" ?>
+    <link rel="stylesheet" href="../css/sort.css">
     <link rel="stylesheet" href="../css/books.css">
-    <title>Document</title>
+
+    <title>Knihy</title>
 </head>
 <body>
 <?php require "../assetss/header_main.php" ?>
-<h1>List of books</h1><br>
+
 <?php if (empty($books)):?>
     <p>Was not founded</p>
 <?php else: ?><ul>
+    <div class="main_title"><h1>All books</h1></div>
+    <div class="sort">
+        <form method="POST" action="knihy.php">
+            <select id="sort" name="sort">
+                <option value="">--Select--</option>
+                <option value="author_desc" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'author_desc') echo 'selected="selected"'; ?>>Author desc</option>
+                <option value="id_author_ascasc" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'author_asc') echo 'selected="selected"'; ?>>Author asc</option>
+                <option value="yofp_desc" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'yofp_desc') echo 'selected="selected"'; ?>>Year of publication desc</option>
+                <option value="yofp_asc" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'yofp_asc') echo 'selected="selected"'; ?>>Year of publication asc</option>
+            </select>
+            <button type="submit" >Sort</button>
+        </form>
+    </div>
     <div class="container">
         <?php foreach($books as $one_book): ?>
-            <div class="result">
+            <div class="result" id=<?=$one_book["id_book"]?>>
                 <?php
                 $imagePath = "../uploads/".$one_book["image"];
                 $imageSource = file_exists($imagePath) && $imagePath !== "../uploads/" ? $imagePath : "../uploads/001.png";
@@ -51,16 +86,14 @@ $books = Books::allBooks($connection)
                         <span class="left-name"><h3>Dostupnost:</h3></span>
                         <span class="right-name"><div class="colorSquare" style="background-color: <?= $one_book["avaliable"] === "true" ? "green" : "red" ?>"></div></span>
                     </div>
-                    <div class="info">
-                    <h3><a href="kniha.php?id=<?= htmlspecialchars($one_book["id_book"]) ?>">Info</a></h3>
+                    <div class="info"><h3><a href="kniha.php?id=<?= htmlspecialchars($one_book["id_book"]) ?>">Info</a></h3>
                     </div>
-                    
                 </div>
+
             </div>
+
         <?php endforeach; ?>
     </div>
-
 <?php endif;?>
-
 </body>
 </html>

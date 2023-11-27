@@ -38,36 +38,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/inputs.css">
     <?php require "../assetss/link_admin.php" ?>
     <title>Document</title>
 </head>
 <body>
     <?php require "../assetss/admin_header.php" ?>
     <main>
-        <section class="logind" >
-            <form action="add_book.php" method="POST" enctype="multipart/form-data">
+        <section class="logind down_add">
+            <form class="login-form" action="add_book.php" method="POST" enctype="multipart/form-data">
                 <h1>Přidat knihu</h1>
 
                 <input type="text"
                        name="title"
                        placeholder="Title"
                        required>
-                <br>
                 <input type="text"
                        name="author"
                        placeholder="Author"
                        required>
-                <br>
                 <input type="text"
                        name="year_of_publication"
-                       placeholder="Year_of_publication"
+                       placeholder="Year of publication"
                        required>
-                <br>
                 <input type="text"
                        name="genre"
                        placeholder="Genre"
                        required>
-                <br>
+
                 <input type="file" name="image">
 
                 <h3> <?= $succesfull ?> </h3><br>
@@ -75,13 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         class="button log log_reg_btn"
                         value="Přidat">Přidat</button>
             </form>
-
-            <div class="added">
-                <h3><?= $_POST["title"] ?></h3>
-                <h3><?= $_POST["author"] ?></h3>
-                <h3><?= $_POST["year_of_publication"] ?></h3>
-                <h3><?= $_POST["genre"] ?></h3>
-            </div>
 
         </section>
     </main>

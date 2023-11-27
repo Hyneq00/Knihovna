@@ -1,0 +1,21 @@
+.logind {
+    flex-direction: column;
+}
+.btn-con{
+    display: flex;
+    margin-top: 10px;
+}
+.btn-con button{
+    font-size: 40px;
+    width: 200px;
+    margin: 10px;
+    border-radius: 15px;
+    color: rgb(94, 94, 94);
+    border-color: rgb(180, 180, 180);
+}
+
+.btn-con button:hover{
+    color: whitesmoke;
+    background-color: rgb(94, 94, 94);
+    border-color: rgb(94, 94, 94);
+}

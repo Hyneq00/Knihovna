@@ -11,10 +11,13 @@ session_start();
 if (!Authorization::isLoggedInAdmin()) {
     die("Nepovolený přístup");
 }
+
+$books = [];
+
 if (isset($_POST["hledat"])) {
     $vyber = $_POST['searching'];
-    $book = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
-    if (empty($book)) {
+    $books = Books::getBook_one($connection, $vyber, $_POST["hledat"]);
+    if (empty($books)) {
         if ($vyber === "title") {
             $text = "The wanted book was not founded";
         } elseif ($vyber === "author") {
@@ -22,7 +25,7 @@ if (isset($_POST["hledat"])) {
         } elseif ($vyber === "genre") {
             $text = "The wanted genre was not founded";
         }
-    } elseif ($book === "error") {
+    } elseif ($books === "error") {
         $text = "Error: Chyba při připojení k  databázi";
     }
 }
@@ -58,6 +61,7 @@ if (isset($_POST["hledat"])) {
             <br>
         </form>
     </div>
+
     <div class="container">
         <?php foreach($books as $one_book): ?>
             <div class="result">
@@ -86,7 +90,7 @@ if (isset($_POST["hledat"])) {
                         <span class="right-name"><div class="colorSquare" style="background-color: <?= $one_book["avaliable"] === "true" ? "green" : "red" ?>"></div></span>
                     </div>
                     <div class="info">
-                    <h3><a href="kniha.php?id=<?= htmlspecialchars($one_book["id_book"]) ?>">Info</a></h3>
+                    <h3><a href="admin_kniha.php?id=<?= htmlspecialchars($one_book["id_book"]) ?>">Info</a></h3>
                     </div>
                     
                 </div>

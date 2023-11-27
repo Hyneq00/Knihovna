@@ -1,0 +1,27 @@
+.account {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 1px solid black;
+    height: auto;
+    width: 600px;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 150px;
+}
+.account h3{
+    display: inline-block;
+}
+.main-title{
+    position: relative;
+    margin-bottom: 40px;
+    left: 150px;
+    top: 10px;
+    font-size: 35px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

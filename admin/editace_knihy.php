@@ -74,37 +74,35 @@ if (!Authorization::isLoggedInAdmin() ) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/inputs.css">
+    <link rel="stylesheet" href="../css/edit.css">
     <title>Document</title>
     <?php require "../assetss/link_admin.php" ?>
 </head>
 <body>
     <main>
         <?php require "../assetss/admin_header.php" ?>
-        <section class="logind" >
-            <form action="editace_knihy.php?id=<?=$one_book['id_book']?>" method="POST" enctype="multipart/form-data">
-                <h1>Upravit knihu</h1><br>
+        <section class="logind down_edit" >
+            <form class="login-form"  action="editace_knihy.php?id=<?=$one_book['id_book']?>" method="POST" enctype="multipart/form-data">
+                <h1>Edit book</h1>
 
                 <input type="text"
                        name="title"
                        placeholder="Název"
                        value="<?= htmlspecialchars($title) ?>"
                         >
-                        <br>
                 <input type="text"
                        name="author"
                        placeholder="Autor"
-                       value="<?=htmlspecialchars($author)?>"">
-                <br>
+                       value="<?=htmlspecialchars($author)?>">
                 <input type="text"
                        name="year_of_publication"
                        placeholder="Rok vydání"
-                       value="<?= htmlspecialchars($year_of_publication) ?>"" >
-                <br>
+                       value="<?= htmlspecialchars($year_of_publication) ?>">
                 <input type="text"
                        name="genre"
                        placeholder="Žánr"
                        value="<?= htmlspecialchars($genre) ?>">
-                <br>
                 <?php
                 $imagePath = "../uploads/$image";
                 // Kontrola, zda je soubor k dispozici
@@ -115,21 +113,17 @@ if (!Authorization::isLoggedInAdmin() ) {
                     echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
                 }
                 ?>
-                <br>
                 <input type="file"
                        name="image">
-                <br>
                 <p><?=$error_text?></p>
-                <br>
                 <button type="submit"
                         class="button log log_reg_btn"
                         name="button"
-                        value="update">Uložit</button>
-                <br><br>
+                        value="update">Save</button>
                 <button type="submit"
                         class="button log log_reg_btn"
                         name="button"
-                        value="delete">Smazat knihu</button><br>
+                        value="delete">Delete book</button><br>
 
                 <p id="zobrazText" ><?=$succesfull?></p>
                 <script>

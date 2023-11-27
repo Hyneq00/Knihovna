@@ -26,38 +26,60 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require "../assetss/link_users.php" ?>
+    <link rel="stylesheet" href="../css/one_book.css">
     <title>Document</title>
 </head>
 <body>
 <?php require "../assetss/users_header.php";?>
 <section>
     <?php if ($book === null ): ?>
-        <p> Kniha nenalezena </p>
+        <p> Book was not founded. </p>
     <?php  else: ?>
-        <h1>Kniha</h1>
-        <h3>Název: <?=htmlspecialchars($book["title"])?></h3>
-        <h3>Autor: <?=htmlspecialchars($book["author"])?></h3>
-        <h3>Rok vydání: <?=htmlspecialchars($book["year_of_publication"])?></h3>
-        <h3>Žánr: <?=htmlspecialchars($book["genre"])?></h3>
+        <div class="book">
         <?php
-        $imagePath = "../uploads/".$book["image"];
-        // Kontrola, zda je soubor k dispozici
-        if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
-            echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
-        } else {
-            // Pokud chybi fotka, zobraz jinou
-            echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
-        }
+            $imagePath = "../uploads/".$book["image"];
+            // Kontrola, zda je soubor k dispozici
+            if (file_exists($imagePath) && $imagePath !== "../uploads/" ) {
+                echo '<img src="'.$imagePath.'" alt="Muj Obrazek">';
+            } else {
+                // Pokud chybi fotka, zobraz jinou
+                echo '<img src="../uploads/001.png" alt="Alternativni Obrazek">';
+            }
+            ?>
+        <?php endif ?>
+        <table>
+            <tbody>
+                <tr>
+                    <th><h2>Author:</h2></th>
+                    <td><h3><?=htmlspecialchars($book["title"])?></h3></td>
+                </tr>
+                <tr>
+                    <th><h2>Title:</h2></th>
+                    <td><h3><?=htmlspecialchars($book["author"])?></h3></td>
+                </tr>
+                <tr>
+                    <th><h2>Year of publication:</h2></th>
+                    <td><h3><?=htmlspecialchars($book["year_of_publication"])?></h3></td>
+                </tr>
+                <tr>
+                    <th><h2>Genre:</h2></th>
+                    <td><h3><?=htmlspecialchars($book["genre"])?></h3></td>
+                </tr>
+                <tr>
+                    <th><h2>Dostupnost:</h2></th>
+                    <td><?php if($book["avaliable"] === "true"): ?>
+                    <div class="colorSquare" style="background-color: green;"></div>
+                    <?php elseif ($book["avaliable"] === "false"): ?>
+                    <div class="colorSquare" style="background-color: red;"></div>
+                    <?php endif ?>
+                    </td>
+                </tr>
+                
+    
+            </tbody>
+        </table>
+        </div>
 
-        ?>
-    <?php endif ?>
-    <br>
-    <?php if($book["avaliable"] === "true"): ?>
-        <h3>Dostupnost:</h3>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
-    <?php elseif ($book["avaliable"] === "false"): ?>
-        <h3>Dostupnost:</h3> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
-    <?php endif ?>
-    <br>
 </section>
 
 

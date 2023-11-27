@@ -1,0 +1,21 @@
+.radio_int input[type="radio"]{
+    display: none;
+}
+.radio_int label{
+    color: #858585;
+    border: 2px solid #858585;
+    width: 170px;
+    display: inline-block;
+}
+.radio_int{
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+.logind{
+    height: 50vh;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #858585;
+    color: white;
+}

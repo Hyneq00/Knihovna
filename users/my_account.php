@@ -20,43 +20,63 @@ $borrows = Users::userBorrows($connection, $id_user);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../js/script.js"></script>
+    <link rel="stylesheet" href="../css/account.css">
+    <link rel="stylesheet" href="../css/loans.css">
     <?php require "../assetss/link_users.php" ?>
     <title>Document</title>
 </head>
 <body>
     <main>
         <?php require "../assetss/users_header.php" ?>
-
+       
             <?php if ($info === null ): ?>
                 <p> Uživatel nenalezen </p>
             <?php  else: ?>
-                <h3>Name: <?=htmlspecialchars($info["first_name"]) ?> </h3>
-                <h3>Surname: <?=htmlspecialchars($info["surname"])?></h3>
-                <h3>Email: <?=htmlspecialchars($info["email"])?></h3>
+                <div class="account">
+                    <h3>Name: <?=htmlspecialchars($info["first_name"]) ?> </h3>
+                    <h3>Surname: <?=htmlspecialchars($info["surname"])?></h3>
+                     <h3>Email: <?=htmlspecialchars($info["email"])?></h3>
+                </div>
             <?php endif ?>
-    <h3>My borrow books:</h3>
+            <div style="account_loans">
+   <div class="main-title"><h3>My borrow books:</h3></div>
         <?php if (empty($borrows)):?>
             <p>Nenalezeno</p>
         <?php else: ?>
-
-            <ul>
-            <?php foreach($borrows as $one_borrow): ?>
-                <div class="ctverec">
-                    <h3>Title:<?=htmlspecialchars($one_borrow["title"])?></h3>
-                    <h3>Author:<?=htmlspecialchars($one_borrow["author"])?></h3>
-                    <h3>Date of borrow:<?=htmlspecialchars($one_borrow["date_of_loan"])?></h3>
-                    <h3>Date of return:<?=htmlspecialchars($one_borrow["date_of_return"])?></h3>
-                    <?php if($one_borrow["loan_return"] === "true"): ?>
-                        <h3>Vráceno:</h3>  <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
-                    <?php elseif ($one_borrow["loan_return"] === "false"): ?>
-                        <h3>Vypůjčeno</h3> <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
-                    <?php endif ?>
-                </div>
-            <?php endforeach; ?>
-        </ul>
+            
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Date of borrow</th>
+                        <th>Date of return</th>
+                        <th>Vráceno</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($borrows as $one_borrow): ?>
+                    <tr>
+                        <td><?=htmlspecialchars($one_borrow["title"])?></td>
+                        <td><?=htmlspecialchars($one_borrow["author"])?></td>
+                        <td><?=htmlspecialchars($one_borrow["date_of_loan"])?></td>
+                        <td><?=htmlspecialchars($one_borrow["date_of_return"])?></td>
+                        <td><?php if($one_borrow["loan_return"] === "true"): ?>
+                                <div id="colorSquare" style="width: 50px; height: 50px;background-color: green;"></div>
+                            <?php elseif ($one_loan["loan_return"] === "false"): ?>
+                                <div id="colorSquare" style="width: 50px; height: 50px;background-color: red;"></div>
+                            <?php endif ?></td>
+                    </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table>
+            
         <?php endif;?>
-
+        </div>
+        
+       
+            
     </main>
 
 
