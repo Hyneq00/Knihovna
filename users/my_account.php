@@ -23,14 +23,14 @@ $borrows = Users::userBorrows($connection, $id_user);
     <link rel="stylesheet" href="../css/account.css">
     <link rel="stylesheet" href="../css/loans.css">
     <?php require "../assetss/link_users.php" ?>
-    <title>Document</title>
+    <title>My account</title>
 </head>
 <body>
     <main>
         <?php require "../assetss/users_header.php" ?>
        
             <?php if ($info === null ): ?>
-                <p> Uživatel nenalezen </p>
+                <h3> The user has no borrowd books yet. </h3>
             <?php  else: ?>
                 <div class="account">
                     <h3>Name: <?=htmlspecialchars($info["first_name"]) ?> </h3>
@@ -52,7 +52,7 @@ $borrows = Users::userBorrows($connection, $id_user);
                         <th>Author</th>
                         <th>Date of borrow</th>
                         <th>Date of return</th>
-                        <th>Vráceno</th>
+                        <th>Returned</th>
                     </tr>
                 </thead>
                 <tbody>

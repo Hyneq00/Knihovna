@@ -19,3 +19,9 @@ input[type="radio"]:checked + label {
     background-color: #858585;
     color: white;
 }
+.my_text{
+    width: 700px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin: 0 auto;
+}

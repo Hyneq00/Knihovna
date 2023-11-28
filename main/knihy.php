@@ -38,7 +38,7 @@ $books = Books::sortBooks($connection, $sql_plus);
     <link rel="stylesheet" href="../css/sort.css">
     <link rel="stylesheet" href="../css/books.css">
 
-    <title>Knihy</title>
+    <title>Books</title>
 </head>
 <body>
 <?php require "../assetss/header_main.php" ?>
@@ -83,7 +83,7 @@ $books = Books::sortBooks($connection, $sql_plus);
                         <span class="right-name"><h2><?= htmlspecialchars($one_book["year_of_publication"]) ?></h2></span>
                     </div>
                     <div class="name-container">
-                        <span class="left-name"><h3>Dostupnost:</h3></span>
+                        <span class="left-name"><h3>Avaliable:</h3></span>
                         <span class="right-name"><div class="colorSquare" style="background-color: <?= $one_book["avaliable"] === "true" ? "green" : "red" ?>"></div></span>
                     </div>
                     <div class="info"><h3><a href="kniha.php?id=<?= htmlspecialchars($one_book["id_book"]) ?>">Info</a></h3>

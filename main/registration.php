@@ -16,14 +16,14 @@ session_start();
     <link rel="stylesheet" href="../css/inputs.css">
     <link rel="stylesheet" href="../css/registration.css">
     <?php require "../assetss/link_main.php" ?>
-    <title>Document</title>
+    <title>Registration</title>
 </head>
 <body>
 <?php require "../assetss/header_main.php" ?>
  
     <div class="logind down" >
         <form action="../admin/registration_after.php" method="POST" class="login-form">
-            <h1>Registrace</h1>
+            <h1>Registration</h1>
             <input type="text"
                    name="first_name"
                    required
@@ -55,10 +55,10 @@ session_start();
             <p id="email_exist"><?= $email_exist_text ?></p>
             <button type="submit"
                     id = "submit"
-                    class="">Zaregistrovat</button>
+                    class="">Register</button>
             <button type="submit"
                 id = "submit_wrong"
-                class="">Zaregistrovat</button>
+                class="">Register</button>
         </form>
         
 </div>

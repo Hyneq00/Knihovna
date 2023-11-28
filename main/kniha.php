@@ -21,7 +21,7 @@ if ( is_numeric($_GET["id"]) and isset($_GET["id"]) ){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/one_book.css">
     <?php require "../assetss/link_main.php" ?>
-    <title>Document</title>
+    <title>Book</title>
 </head>
 <body>
 <?php require "../assetss/header_main.php" ?>

@@ -5,7 +5,7 @@ require  "../assetss/authorization.php";
 
 $database = new Database();
 $connection = $database->connectiondb();
-
+$books = [];
 session_start();
 
 if (!Authorization::isLoggedInUser() ) {
@@ -38,7 +38,7 @@ if (isset($_POST["hledat"])) {
     <?php require "../assetss/link_users.php" ?>
     <link rel="stylesheet" text=""href="../css/style_search.css">
     <link rel="stylesheet" href="../css/books.css">
-    <title>Document</title>
+    <title>Main page</title>
 </head>
 <body>
 <?php require "../assetss/users_header.php" ?>

@@ -100,6 +100,7 @@ if (!Authorization::isLoggedInAdmin()) {
             <?php endforeach; ?>
         </tbody>
     </table>
+    
 
 </main>
 </body>

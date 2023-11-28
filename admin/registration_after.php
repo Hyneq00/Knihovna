@@ -33,6 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     } else {
         $_SESSION["email-exist"] = "true";
-        header("Location:../main/registration.php");
+        header("Location:../users/index_users.php");
     }
 }

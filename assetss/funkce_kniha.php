@@ -327,7 +327,9 @@ class Users {
     }
 // Získání ID uživatele
     public static function getUserId($connection, $email) {
-        $sql = "SELECT id_user FROM users WHERE email = :email";
+        $sql = "SELECT id_user 
+                FROM users 
+                WHERE email = :email";
 
         $stmt = $connection->prepare($sql);
         try {
@@ -426,7 +428,22 @@ class Users {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    public static function allUsers($connection, $sql_plus){
+        $sql = "SELECT * 
+                FROM users
+                WHERE role = 'user'
+                $sql_plus";
+        $stmt = $connection->prepare($sql);
+        try {
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                throw new Exception("Chyba při připojení do databáze");
+            }
+        } catch (Exception $e) {
+            echo "Typ chyby: ". $e->getMessage();
+      		}
+    }
 
 }
 class Loan {
@@ -447,9 +464,9 @@ class Loan {
             echo "Typ chyby: ". $e->getMessage();
       		}
 	}
-    public function loan($connection, $id_user, $id_book) {
+    public function lloan($connection, $id_user, $id_book) {
         $sql = "INSERT INTO loans (id_user, id_book, date_of_loan)
-                VALUES (:id_user, :id_book,:date_of_loan)";
+                VALUES (:id_user, :id_book, :date_of_loan)";
         $today = date("Y-m-d");
         $stmt = $connection->prepare($sql);
         try {

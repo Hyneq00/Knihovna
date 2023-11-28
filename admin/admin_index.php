@@ -5,7 +5,7 @@ require  "../assetss/authorization.php";
 
 $database = new Database();
 $connection = $database->connectiondb();
-
+$books = [];
 session_start();
 
 if (!Authorization::isLoggedInAdmin()) {
@@ -42,7 +42,7 @@ if (isset($_POST["hledat"])) {
     <?php require "../assetss/link_admin.php" ?>
     <link rel="stylesheet" text=""href="../css/style_search.css">
     <link rel="stylesheet" href="../css/books.css">
-    <title>Document</title>
+    <title>Main page</title>
 </head>
 <body>
 <?php require "../assetss/admin_header.php" ?>
